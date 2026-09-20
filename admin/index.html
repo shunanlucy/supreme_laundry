@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#0f172a">
+    <title>The Supreme Laundry — Admin Dashboard &amp; Order Operations</title>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Admin Stylesheet -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <!-- ==========================================================
+         SECURITY PIN LOCK OVERLAY
+         ========================================================== -->
+    <div id="adminAuthOverlay">
+        <div class="auth-card">
+            <img src="../assets/logo.png" alt="The Supreme Laundry Logo" class="auth-logo" onerror="this.src='https://via.placeholder.com/64?text=TSL'">
+            <h2 class="auth-title">The Supreme Laundry</h2>
+            <p class="auth-subtitle">Store Operations &amp; Admin Panel</p>
+
+            <input type="password" id="authPinInput" class="auth-pin-input" placeholder="••••" maxlength="8" autocomplete="off" autofocus>
+            
+            <button type="button" class="auth-submit-btn" onclick="verifyAdminPin()">
+                <i class="fas fa-lock-open"></i> Unlock Dashboard
+            </button>
+            <p class="auth-hint">Default Security PIN: <strong>9007</strong></p>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         SIDEBAR NAVIGATION
+         ========================================================== -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-brand">
+            <img src="../assets/logo.png" alt="The Supreme Laundry" class="sidebar-logo" onerror="this.src='https://via.placeholder.com/42?text=TSL'">
+            <div class="sidebar-brand-text">
+                <h2>Supreme Laundry</h2>
+                <span>Store Admin</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Store Operations</div>
+            <a href="javascript:void(0)" class="nav-item active" data-tab="tab-dashboard" onclick="switchAdminTab('tab-dashboard')">
+                <i class="fas fa-chart-pie"></i>
+                <span>Overview</span>
+            </a>
+            <a href="javascript:void(0)" class="nav-item" data-tab="tab-orders" onclick="switchAdminTab('tab-orders')">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Live Orders</span>
+                <span class="badge" id="badgePendingCount">0</span>
+            </a>
+
+            <div class="nav-label">Management</div>
+            <a href="javascript:void(0)" class="nav-item" data-tab="tab-rates" onclick="switchAdminTab('tab-rates')">
+                <i class="fas fa-tags"></i>
+                <span>Rate Card Editor</span>
+            </a>
+            <a href="javascript:void(0)" class="nav-item" data-tab="tab-customers" onclick="switchAdminTab('tab-customers')">
+                <i class="fas fa-users"></i>
+                <span>Customer CRM</span>
+            </a>
+            <a href="javascript:void(0)" class="nav-item" data-tab="tab-settings" onclick="switchAdminTab('tab-settings')">
+                <i class="fas fa-cog"></i>
+                <span>Store Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="../index.html" target="_blank" class="sidebar-store-link">
+                <i class="fas fa-external-link-alt"></i>
+                <span>View Customer Website</span>
+            </a>
+            <button type="button" class="sidebar-logout-btn" onclick="adminLogout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Lock / Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ==========================================================
+         MAIN DASHBOARD WORKSPACE
+         ========================================================== -->
+    <main class="admin-main">
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+            <div class="topbar-left">
+                <button type="button" class="mobile-menu-toggle" onclick="toggleMobileSidebar()" title="Toggle Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="topbar-title">
+                    <h1>Store Management Portal</h1>
+                    <p>Kalurmore Bus Stand, Action Area 2 &bull; Helpline: 9007895400</p>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="store-status-pill">
+                    <span class="dot"></span>
+                    <span>Store Open</span>
+                </div>
+                <button type="button" class="btn-topbar-action" onclick="openManualOrderModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>+ New Walk-in Order</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- TABS CONTAINER -->
+        <div class="admin-content">
+
+            <!-- ==================================================
+                 TAB 1: OVERVIEW / STATS
+                 ================================================== -->
+            <section id="tab-dashboard" class="admin-tab-pane active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Orders</h3>
+                            <div class="stat-number" id="statTotalOrders">0</div>
+                            <div class="stat-sub"><i class="fas fa-arrow-up"></i> Lifetime Bookings</div>
+                        </div>
+                        <div class="stat-icon blue">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Revenue</h3>
+                            <div class="stat-number" id="statTotalRevenue">₹0</div>
+                            <div class="stat-sub"><i class="fas fa-rupee-sign"></i> Gross Value</div>
+                        </div>
+                        <div class="stat-icon green">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Paid Collected</h3>
+                            <div class="stat-number" id="statPaidCollected" style="color:#059669;">₹0</div>
+                            <div class="stat-sub" style="color:#059669;"><i class="fas fa-check-circle"></i> Cash &amp; UPI Received</div>
+                        </div>
+                        <div class="stat-icon green">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Due / Pending Pay</h3>
+                            <div class="stat-number" id="statDuePayments" style="color:#dc2626;">₹0</div>
+                            <div class="stat-sub" style="color:#dc2626;"><i class="fas fa-exclamation-circle"></i> Uncollected Bills</div>
+                        </div>
+                        <div class="stat-icon amber">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Pending Pickups</h3>
+                            <div class="stat-number" id="statPendingPickups">0</div>
+                            <div class="stat-sub" style="color:#f59e0b;"><i class="fas fa-clock"></i> Action Area 2</div>
+                        </div>
+                        <div class="stat-icon amber">
+                            <i class="fas fa-truck-loading"></i>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>In Wash / Clean</h3>
+                            <div class="stat-number" id="statInProgress">0</div>
+                            <div class="stat-sub" style="color:#8b5cf6;"><i class="fas fa-sync-alt"></i> Active Processing</div>
+                        </div>
+                        <div class="stat-icon purple">
+                            <i class="fas fa-soap"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings Panel -->
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-card-title">
+                            <h3><i class="fas fa-history" style="color:#1a73e8;"></i> Recent Bookings</h3>
+                            <span>Latest 5 orders received</span>
+                        </div>
+                        <button type="button" class="btn-topbar-action" style="padding: 6px 12px; font-size: 0.75rem;" onclick="switchAdminTab('tab-orders')">
+                            <span>View All Orders &rarr;</span>
+                        </button>
+                    </div>
+                    <div class="table-responsive desktop-only-table">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Address</th>
+                                    <th>Garments &amp; Care</th>
+                                    <th>Bill (₹)</th>
+                                    <th>Payment</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentOrdersTableBody">
+                                <!-- Injected by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- MOBILE-FIRST ORDER CARDS (< 768px) -->
+                    <div class="mobile-orders-cards-wrapper" id="recentOrdersCardsMobile">
+                        <!-- Injected by admin.js -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================
+                 TAB 2: LIVE ORDERS & MANAGEMENT
+                 ================================================== -->
+            <section id="tab-orders" class="admin-tab-pane">
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-card-title">
+                            <h3><i class="fas fa-clipboard-list" style="color:#1a73e8;"></i> Live Customer Orders</h3>
+                            <span>Track, collect payment, update status, print bill, and notify customers</span>
+                        </div>
+
+                        <div class="panel-actions">
+                            <div class="table-search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="orderSearchInput" placeholder="Search by name, phone, ID..." oninput="renderOrdersTable()">
+                            </div>
+                            <select id="orderStatusFilter" class="table-filter-select" onchange="renderOrdersTable()">
+                                <option value="all">All Statuses</option>
+                                <option value="Order Placed">Order Placed</option>
+                                <option value="Picked Up">Picked Up</option>
+                                <option value="In Wash / Dry Clean">In Wash / Dry Clean</option>
+                                <option value="Out for Delivery">Out for Delivery</option>
+                                <option value="Delivered">Delivered</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                            <select id="orderPaymentFilter" class="table-filter-select" onchange="renderOrdersTable()">
+                                <option value="all">All Payments</option>
+                                <option value="Paid">Paid Only</option>
+                                <option value="Unpaid">Unpaid / Due Only</option>
+                                <option value="Partial">Partial Paid</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive desktop-only-table">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Order Info</th>
+                                    <th>Customer</th>
+                                    <th>Pickup Location</th>
+                                    <th>Garments / Treatment</th>
+                                    <th>Bill (₹)</th>
+                                    <th>Payment Status</th>
+                                    <th>Update Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allOrdersTableBody">
+                                <!-- Injected by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- MOBILE-FIRST ALL ORDERS CARDS (< 768px) -->
+                    <div class="mobile-orders-cards-wrapper" id="allOrdersCardsMobile" style="padding: 14px;">
+                        <!-- Injected by admin.js -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================
+                 TAB 3: RATE CARD & PRICING EDITOR
+                 ================================================== -->
+            <section id="tab-rates" class="admin-tab-pane">
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-card-title">
+                            <h3><i class="fas fa-tags" style="color:#10b981;"></i> Dynamic Rate Card &amp; Price Editor</h3>
+                            <span>Edit prices here. Updates take effect immediately on the customer booking portal.</span>
+                        </div>
+                        <button type="button" class="btn-save-rates" onclick="saveAllPrices()">
+                            <i class="fas fa-save"></i> Save All Price Updates
+                        </button>
+                    </div>
+
+                    <!-- SEARCH & CATEGORY FILTER BAR (STICKY & RESPONSIVE) -->
+                    <div class="rate-filter-header">
+                        <div class="rate-search-row">
+                            <div class="rate-search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="rateSearchInput" placeholder="Search garment (e.g. shirt, saree, blazer, curtain)..." oninput="handleRateSearch(this.value)">
+                                <button type="button" class="btn-clear-search" id="rateClearSearchBtn" onclick="clearRateSearch()" style="display:none;" title="Clear Search">
+                                    <i class="fas fa-times-circle"></i>
+                                </button>
+                            </div>
+                            <div class="rate-count-badge" id="rateCountBadge">
+                                Showing 93 items
+                            </div>
+                        </div>
+
+                        <!-- Horizontal Category Filter Pills -->
+                        <div class="rate-category-pills" id="rateCategoryPills">
+                            <button type="button" class="rate-cat-pill active" data-cat="all" onclick="filterRateCategory('all')">
+                                <i class="fas fa-layer-group"></i> All <span class="pill-count" id="pillCountAll">92</span>
+                            </button>
+                            <button type="button" class="rate-cat-pill" data-cat="men" onclick="filterRateCategory('men')">
+                                <i class="fas fa-tshirt"></i> Men's Wear <span class="pill-count" id="pillCountMen">23</span>
+                            </button>
+                            <button type="button" class="rate-cat-pill" data-cat="women" onclick="filterRateCategory('women')">
+                                <i class="fas fa-female"></i> Women's Wear <span class="pill-count" id="pillCountWomen">19</span>
+                            </button>
+                            <button type="button" class="rate-cat-pill" data-cat="home" onclick="filterRateCategory('home')">
+                                <i class="fas fa-bed"></i> Home &amp; Linen <span class="pill-count" id="pillCountHome">34</span>
+                            </button>
+                            <button type="button" class="rate-cat-pill" data-cat="sofa" onclick="filterRateCategory('sofa')">
+                                <i class="fas fa-couch"></i> Sofa &amp; Carpet <span class="pill-count" id="pillCountSofa">4</span>
+                            </button>
+                            <button type="button" class="rate-cat-pill" data-cat="iron" onclick="filterRateCategory('iron')">
+                                <i class="fas fa-bolt"></i> Steam Iron <span class="pill-count" id="pillCountIron">12</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive desktop-only-table">
+                        <table class="admin-table rate-card-table">
+                            <thead>
+                                <tr>
+                                    <th>Garment / Item Name</th>
+                                    <th>Category</th>
+                                    <th>Soft Wash &amp; Iron (₹)</th>
+                                    <th>Soft Dry Clean (₹)</th>
+                                    <th>Premium Dry Clean (₹)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rateCardTableBody">
+                                <!-- Injected by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- MOBILE-FIRST RATE CARDS (< 768px) -->
+                    <div class="mobile-rate-cards-wrapper" id="rateCardsMobileList" style="padding: 14px;">
+                        <!-- Injected by admin.js -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================
+                 TAB 4: CUSTOMER CRM DIRECTORY
+                 ================================================== -->
+            <section id="tab-customers" class="admin-tab-pane">
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-card-title">
+                            <h3><i class="fas fa-users" style="color:#2563eb;"></i> Customer CRM &amp; Phone Directory</h3>
+                            <span>Direct WhatsApp broadcast and order history per customer</span>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive desktop-only-table">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Frequent Address</th>
+                                    <th>Total Orders</th>
+                                    <th>Lifetime Spend</th>
+                                    <th>WhatsApp Offer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customerDirectoryTableBody">
+                                <!-- Injected by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- MOBILE-FIRST CUSTOMER CARDS (< 768px) -->
+                    <div class="mobile-customers-cards-wrapper" id="customerDirectoryCardsMobile" style="padding: 14px;">
+                        <!-- Injected by admin.js -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================================================
+                 TAB 5: STORE SETTINGS
+                 ================================================== -->
+            <section id="tab-settings" class="admin-tab-pane">
+                <div class="panel-card">
+                    <div class="panel-card-header">
+                        <div class="panel-card-title">
+                            <h3><i class="fas fa-store" style="color:#f59e0b;"></i> Store Configuration &amp; Security</h3>
+                            <span>Manage store contact, pickup terms, and change login PIN</span>
+                        </div>
+                    </div>
+
+                    <form onsubmit="saveStoreSettings(event)">
+                        <div class="settings-grid">
+                            <div class="settings-box">
+                                <h4><i class="fas fa-map-marker-alt" style="color:#ef4444;"></i> Store Contact Details</h4>
+                                <div class="settings-field">
+                                    <label>Customer Helpline Phone Number</label>
+                                    <input type="text" id="setStorePhone" value="9007895400" required>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Physical Store Location / Pickup Point</label>
+                                    <textarea id="setStoreAddress" rows="3" required>Near Kalurmore Bus Stand, Action Area 2, New Town, Kolkata - 700160</textarea>
+                                </div>
+                            </div>
+
+                            <div class="settings-box">
+                                <h4><i class="fas fa-truck" style="color:#10b981;"></i> Delivery Rules</h4>
+                                <div class="settings-field">
+                                    <label>Minimum Order for FREE Doorstep Pickup &amp; Delivery (₹)</label>
+                                    <input type="number" id="setMinOrder" value="300" required>
+                                </div>
+                                <div class="settings-field">
+                                    <label>Express Delivery Surcharge Rate</label>
+                                    <input type="text" value="+50% extra (Standard policy)" readonly style="background:#f1f5f9; color:#64748b;">
+                                </div>
+                            </div>
+
+                            <div class="settings-box">
+                                <h4><i class="fas fa-key" style="color:#8b5cf6;"></i> Security &amp; Login PIN</h4>
+                                <div class="settings-field">
+                                    <label>Set New Admin PIN (4-8 digits)</label>
+                                    <input type="password" id="setNewPin" placeholder="Leave blank to keep current PIN">
+                                </div>
+                                <p style="font-size:0.75rem; color:#64748b;">Default PIN is <strong>9007</strong>.</p>
+                            </div>
+                        </div>
+
+                        <div style="padding: 0 20px 20px 20px; text-align: right;">
+                            <button type="submit" class="btn-topbar-action" style="padding: 10px 24px; font-size: 0.9rem;">
+                                <i class="fas fa-check-circle"></i> Save Settings
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ==========================================================
+         MODALS (MANUAL ORDER & INVOICE VIEWER)
+         ========================================================== -->
+    <div class="adm-modal-backdrop" id="admBackdrop" onclick="closeAllAdminModals()"></div>
+
+    <!-- 1. MANUAL ORDER CREATION MODAL -->
+    <div class="adm-modal-box" id="admManualOrderModal">
+        <div class="adm-modal-header">
+            <h3><i class="fas fa-plus-circle"></i> Create Walk-in / Phone Order</h3>
+            <button type="button" class="adm-modal-close" onclick="closeAdminModal('admManualOrderModal')">&times;</button>
+        </div>
+        <div class="adm-modal-body">
+            <form onsubmit="handleManualOrderSubmit(event)">
+                <div class="settings-field">
+                    <label>Customer Full Name *</label>
+                    <input type="text" id="manCustName" required placeholder="e.g. S. Banerjee">
+                </div>
+                <div class="settings-field">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="manCustPhone" required placeholder="e.g. 9876543210">
+                </div>
+                <div class="settings-field">
+                    <label>Customer Address (Optional for walk-in)</label>
+                    <input type="text" id="manCustAddress" placeholder="Action Area 2, New Town">
+                </div>
+                <div class="settings-field">
+                    <label>Garments &amp; Care Details</label>
+                    <textarea id="manItemsNote" rows="3" placeholder="e.g. 3x Shirts (Wash & Iron), 1x Blazer (Dry Clean)"></textarea>
+                </div>
+                <div class="settings-field">
+                    <label>Total Bill Amount (₹) *</label>
+                    <input type="number" id="manTotalAmount" required placeholder="e.g. 450">
+                </div>
+                <div style="text-align:right; margin-top:16px;">
+                    <button type="submit" class="btn-topbar-action" style="padding: 10px 20px;">
+                        <i class="fas fa-check"></i> Create Order
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 2. INVOICE PREVIEW MODAL -->
+    <div class="adm-modal-box" id="admInvoiceModal" style="max-width: 680px;">
+        <div class="adm-modal-header">
+            <h3><i class="fas fa-file-invoice"></i> Customer Bill &amp; Receipt</h3>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button type="button" class="btn-topbar-action" style="padding: 6px 12px; font-size: 0.75rem; background:#10b981;" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button type="button" class="adm-modal-close" onclick="closeAdminModal('admInvoiceModal')">&times;</button>
+            </div>
+        </div>
+        <div class="adm-modal-body" id="admInvoiceModalContent">
+            <!-- Dynamic Invoice injected by admin.js -->
+        </div>
+    </div>
+
+    <!-- 3. PAYMENT ENTRY & MANAGEMENT MODAL -->
+    <div class="adm-modal-box" id="admPaymentModal" style="max-width: 480px;">
+        <div class="adm-modal-header">
+            <h3><i class="fas fa-wallet" style="color:#10b981;"></i> Record &amp; Manage Payment</h3>
+            <button type="button" class="adm-modal-close" onclick="closeAdminModal('admPaymentModal')">&times;</button>
+        </div>
+        <div class="adm-modal-body">
+            <form onsubmit="handleRecordPaymentSubmit(event)">
+                <input type="hidden" id="payOrderId">
+                
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 14px; margin-bottom:14px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="font-size:0.75rem; color:#64748b;">Order ID:</span>
+                        <strong id="payModalOrderDisplay" style="font-size:0.85rem; color:#0f172a;">#TSL-...</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="font-size:0.75rem; color:#64748b;">Customer:</span>
+                        <strong id="payModalCustName" style="font-size:0.85rem; color:#0f172a;">Rahul Sharma</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                        <span style="font-size:0.75rem; color:#64748b;">Total Bill:</span>
+                        <strong id="payModalTotalAmount" style="font-size:0.95rem; color:#0f172a;">₹0</strong>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; border-top:1px solid #e2e8f0; padding-top:6px; margin-top:4px;">
+                        <span style="font-size:0.75rem; color:#dc2626; font-weight:700;">Remaining Balance Due:</span>
+                        <strong id="payModalDueAmount" style="font-size:1.05rem; color:#dc2626;">₹0</strong>
+                    </div>
+                </div>
+
+                <div class="settings-field">
+                    <label>Payment Method *</label>
+                    <select id="payMethodSelect" style="width:100%; padding:9px 12px; border:1px solid var(--adm-border); border-radius:8px; font-weight:700;">
+                        <option value="UPI">UPI (Google Pay / PhonePe / Paytm / QR)</option>
+                        <option value="Cash">Cash (Collected at Doorstep / Store)</option>
+                        <option value="Card">Card / POS Terminal</option>
+                        <option value="Online">Online Transfer (NEFT / NetBanking)</option>
+                    </select>
+                </div>
+
+                <div class="settings-field">
+                    <label>Amount to Collect (₹) *</label>
+                    <input type="number" id="payAmountInput" required min="1" step="any" placeholder="e.g. 450" style="font-size:1.1rem; font-weight:800; color:#059669;">
+                </div>
+
+                <div class="settings-field">
+                    <label>Transaction ID / UPI Reference (Optional)</label>
+                    <input type="text" id="payRefInput" placeholder="e.g. UPI Ref: 3849204820">
+                </div>
+
+                <div class="settings-field">
+                    <label>Payment Note (Optional)</label>
+                    <input type="text" id="payNotesInput" placeholder="e.g. Paid in full on delivery to rider">
+                </div>
+
+                <div style="display:flex; gap:10px; margin-top:16px;">
+                    <button type="button" class="btn-topbar-action" style="flex:1; background:#f1f5f9; color:#334155; justify-content:center;" onclick="markFullPaidShortcut()">
+                        Full Paid (1-Click)
+                    </button>
+                    <button type="submit" class="btn-topbar-action" style="flex:1.2; background:#10b981; justify-content:center;">
+                        <i class="fas fa-check-circle"></i> Save Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MOBILE FLOATING ACTION BUTTON (+ Walk-in Order) -->
+    <button type="button" class="admin-mobile-fab" onclick="openManualOrderModal()" title="Create Walk-in Order">
+        <i class="fas fa-plus"></i>
+    </button>
+
+    <!-- MOBILE-FIRST APP BOTTOM NAVIGATION BAR (< 768px) -->
+    <nav class="admin-mobile-nav">
+        <button type="button" class="m-nav-item active" data-tab="tab-dashboard" onclick="switchAdminTab('tab-dashboard')">
+            <i class="fas fa-chart-pie"></i>
+            <span>Overview</span>
+        </button>
+        <button type="button" class="m-nav-item" data-tab="tab-orders" onclick="switchAdminTab('tab-orders')">
+            <div class="m-nav-icon-wrapper">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="m-nav-badge" id="mNavBadgeCount">0</span>
+            </div>
+            <span>Orders</span>
+        </button>
+        <button type="button" class="m-nav-item" data-tab="tab-rates" onclick="switchAdminTab('tab-rates')">
+            <i class="fas fa-tags"></i>
+            <span>Rates</span>
+        </button>
+        <button type="button" class="m-nav-item" data-tab="tab-customers" onclick="switchAdminTab('tab-customers')">
+            <i class="fas fa-users"></i>
+            <span>Customers</span>
+        </button>
+        <button type="button" class="m-nav-item" data-tab="tab-settings" onclick="switchAdminTab('tab-settings')">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </button>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="../js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

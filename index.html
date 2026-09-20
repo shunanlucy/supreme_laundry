@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="theme-color" content="#1a73e8">
+    <meta name="description" content="The Supreme Laundry — Premium garment care, dry cleaning & laundry in New Town, Kolkata. Doorstep pickup & delivery. Call/WhatsApp 9007895400.">
+    <title>The Supreme Laundry — Premium Laundry & Dry Cleaning</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+    <!-- ==========================================================
+         DESKTOP TOP NAVBAR (Visible on tablet & desktop >= 768px)
+         ========================================================== -->
+    <header class="desktop-navbar">
+        <div class="desktop-nav-container">
+            <div class="d-brand" onclick="switchView('view-home')">
+                <img src="assets/logo.png" alt="The Supreme Laundry Logo" class="d-brand-logo">
+                <div class="d-brand-text">
+                    <span class="d-brand-title">The Supreme Laundry</span>
+                    <span class="d-brand-sub">We take care of your premium clothes</span>
+                </div>
+            </div>
+
+            <nav class="d-nav-menu">
+                <a href="javascript:void(0)" class="d-nav-link active" onclick="switchView('view-home')">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="javascript:void(0)" class="d-nav-link" onclick="switchView('view-pricing')">
+                    <i class="fas fa-tags"></i> Price Menu &amp; Cart
+                </a>
+                <a href="javascript:void(0)" class="d-nav-link" onclick="switchView('view-track')">
+                    <i class="fas fa-route"></i> Track Order
+                </a>
+                <a href="javascript:void(0)" class="d-nav-link" onclick="switchView('view-tips')">
+                    <i class="fas fa-sparkles"></i> Best Practices &amp; Terms
+                </a>
+                <a href="javascript:void(0)" class="d-nav-link" onclick="switchView('view-profile')">
+                    <i class="fas fa-store"></i> Store &amp; Contact
+                </a>
+            </nav>
+
+            <div class="d-nav-actions">
+                <a href="tel:9007895400" class="d-call-badge" title="Call Us Direct">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>9007895400</span>
+                </a>
+                <a href="https://wa.me/919007895400?text=Hi%20The%20Supreme%20Laundry,%20I%20want%20to%20book%20a%20pickup!" target="_blank" class="d-wa-btn" title="Chat on WhatsApp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <button class="d-book-btn" onclick="openOrderModal()">
+                    <i class="fas fa-calendar-check"></i> Book Pickup
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==========================================================
+         MAIN RESPONSIVE APP SHELL
+         - Mobile (< 768px): Native App Look with Status Header & Bottom Bar
+         - Desktop (>= 768px): Expands into full-width web portal
+         ========================================================== -->
+    <div class="responsive-wrapper">
+        <div class="app-shell">
+            
+            <!-- MOBILE-ONLY HEADER (< 768px) -->
+            <header class="mobile-app-header">
+                <div class="header-top">
+                    <a href="https://maps.app.goo.gl/jxj6XKyMj5zhcPMJA" target="_blank" class="location-badge" style="text-decoration:none;">
+                        <div class="loc-icon-bubble">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="loc-text">
+                            <span class="loc-label">Pickup &amp; Delivery</span>
+                            <h4 class="loc-title">
+                                <span class="loc-name">Kalurmore Bus Stand, New Town</span>
+                                <i class="fas fa-external-link-alt loc-arrow"></i>
+                            </h4>
+                        </div>
+                    </a>
+                    <div class="header-actions">
+                        <a href="tel:9007895400" class="icon-btn" title="Call 9007895400">
+                            <i class="fas fa-phone-alt"></i>
+                        </a>
+                        <a href="https://wa.me/919007895400?text=Hi%20The%20Supreme%20Laundry,%20I%20want%20to%20book%20a%20pickup!" class="icon-btn wa-btn" title="WhatsApp 9007895400">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <button class="icon-btn notif-btn" id="notifBell" title="Offers">
+                            <i class="far fa-bell"></i>
+                            <span class="notif-dot"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SEARCH BAR -->
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="serviceSearch" placeholder="Search shirts, dry clean, saree, blazers, sofa...">
+                    <button class="filter-btn" id="clearSearch" style="display:none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ======================================================
+                 MAIN SCROLLABLE CONTENT (Shared Views)
+                 ====================================================== -->
+            <main class="app-content">
+
+                <!-- ================= VIEW 1: HOME ================= -->
+                <section class="app-view active" id="view-home">
+                    
+                    <!-- HERO: 4-THEME RESPONSIVE CAROUSEL (DOUBLED SIZE, SCREEN RESPONSIVE) -->
+                    <div class="promo-carousel-wrapper" id="heroCarouselWrapper">
+                        <button class="carousel-arrow prev" onclick="scrollHeroCarousel(-1)" aria-label="Previous Slide">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        
+                        <div class="promo-carousel-track" id="heroCarouselTrack">
+                            <!-- Slide 1: OFFERS -->
+                            <div class="promo-banner-slide" onclick="switchView('view-pricing')">
+                                <img src="assets/banner-offer.jpg" alt="Special 20% Discount Offer" class="pbs-bg-img">
+                                <div class="pbs-overlay"></div>
+                                <div class="pbs-content">
+                                    <span class="pbs-tag"><i class="fas fa-percent"></i> SPECIAL OFFER</span>
+                                    <h3>Flat 20% OFF — First Order</h3>
+                                    <p>Get 20% off on premium laundry &amp; dry-cleaning with FREE doorstep pickup across New Town &amp; Kalurmore!</p>
+                                    <div class="pbs-actions">
+                                        <button class="pbs-btn" onclick="event.stopPropagation(); switchView('view-pricing')">
+                                            Order Now <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                        <span class="pbs-code-badge"><i class="fas fa-tag"></i> CLEAN20</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 2: CLEANING IN WASHING MACHINE -->
+                            <div class="promo-banner-slide" onclick="switchView('view-pricing'); switchPriceTab('men');">
+                                <img src="assets/banner-wash.jpg" alt="Hygienic Washing Machine Care" class="pbs-bg-img">
+                                <div class="pbs-overlay"></div>
+                                <div class="pbs-content">
+                                    <span class="pbs-tag"><i class="fas fa-water"></i> HYGIENIC WASH</span>
+                                    <h3>Smart Machine Wash &amp; Care</h3>
+                                    <p>Antiseptic solvent wash, color-lock cycles &amp; fabric conditioner bath to keep everyday garments fresh like new.</p>
+                                    <div class="pbs-actions">
+                                        <button class="pbs-btn" onclick="event.stopPropagation(); switchView('view-pricing'); switchPriceTab('men');">
+                                            Explore Wash Care <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3: AGENT GIVING CLEAN CLOTHES TO CUSTOMER -->
+                            <div class="promo-banner-slide" onclick="openOrderModal()">
+                                <img src="assets/banner-agent.jpg" alt="Doorstep Delivery by Supreme Executive" class="pbs-bg-img">
+                                <div class="pbs-overlay"></div>
+                                <div class="pbs-content">
+                                    <span class="pbs-tag"><i class="fas fa-truck-pickup"></i> DOORSTEP SERVICE</span>
+                                    <h3>Agent Pickup &amp; Delivery</h3>
+                                    <p>Our friendly Supreme executive picks up from your home and delivers crisp, hanger-packed clean clothes right on time.</p>
+                                    <div class="pbs-actions">
+                                        <a href="tel:9007895400" class="pbs-btn" onclick="event.stopPropagation()">
+                                            <i class="fas fa-phone-alt"></i> Call 9007895400
+                                        </a>
+                                        <a href="https://wa.me/919007895400?text=Hi%20The%20Supreme%20Laundry,%20I%20want%20to%20book%20a%20pickup!" target="_blank" class="pbs-btn wa-btn" onclick="event.stopPropagation()">
+                                            <i class="fab fa-whatsapp"></i> WhatsApp
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 4: SPECIAL CLEANING SERVICE -->
+                            <div class="promo-banner-slide" onclick="openCategoryFullPage('women')">
+                                <img src="assets/banner-special.jpg" alt="Deluxe Steam Ironing & Dry Cleaning" class="pbs-bg-img">
+                                <div class="pbs-overlay"></div>
+                                <div class="pbs-content">
+                                    <span class="pbs-tag"><i class="fas fa-gem"></i> DELUXE SPA</span>
+                                    <h3>Special Dry Clean &amp; Steam Spa</h3>
+                                    <p>High-pressure vacuum steam press, wedding lehengas, silk sarees, blazers &amp; delicate fabrics with dust-proof packaging.</p>
+                                    <div class="pbs-actions">
+                                        <button class="pbs-btn" onclick="event.stopPropagation(); openCategoryFullPage('women')">
+                                            Special Care Menu <i class="fas fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="carousel-arrow next" onclick="scrollHeroCarousel(1)" aria-label="Next Slide">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                        <!-- CAROUSEL DOTS INDICATORS -->
+                        <div class="carousel-dots-strip" id="heroCarouselDots">
+                            <span class="c-dot active" onclick="goToHeroSlide(0)"></span>
+                            <span class="c-dot" onclick="goToHeroSlide(1)"></span>
+                            <span class="c-dot" onclick="goToHeroSlide(2)"></span>
+                            <span class="c-dot" onclick="goToHeroSlide(3)"></span>
+                        </div>
+                    </div>
+
+                    <!-- WELCOME BANNER CARD (Between Carousel & Categories) -->
+                    <div class="welcome-banner-card">
+                        <div class="wbc-left">
+                            <div class="wbc-badge"><i class="fas fa-crown"></i> Kolkata's Premier Fabric Care</div>
+                            <h3 class="wbc-title">Welcome to The Supreme Laundry</h3>
+                            <div class="wbc-perks">
+                                <span class="wbc-perk"><i class="fas fa-check-circle"></i> Free Doorstep Pickup above ₹300</span>
+                                <span class="wbc-perk"><i class="fas fa-check-circle"></i> 24-48h Delivery</span>
+                                <span class="wbc-perk"><i class="fas fa-check-circle"></i> 100% Antiseptic Steam Care</span>
+                            </div>
+                        </div>
+                        <div class="wbc-right">
+                            <button class="wbc-cta-btn" onclick="openOrderModal()">
+                                <i class="fas fa-calendar-check"></i> Book Doorstep Pickup
+                            </button>
+                            <a href="tel:9007895400" class="wbc-call-link">
+                                <i class="fas fa-phone-alt"></i> Call 9007895400
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- CATEGORIES ROW: CLEAN TITLE & SIMPLE ARROW BUTTON -->
+                    <div class="section-title-row">
+                        <h3>Service Categories</h3>
+                        <button class="see-all-btn" onclick="switchView('view-pricing')" title="View All Products">
+                            View All &rarr;
+                        </button>
+                    </div>
+
+                    <!-- 4 SERVICE CATEGORIES (Steam Iron, Men, Women & Home) -->
+                    <div class="category-scroll-strip four-cat-strip">
+                        <div class="cat-pill active" id="home-pill-iron" onclick="selectHomeCategory('iron', this)" title="Steam Ironing Services">
+                            <div class="cat-icon-circle purple">
+                                <img src="assets/cat-iron.png" alt="Steam Iron" class="cat-3d-img">
+                            </div>
+                            <span>Steam Iron</span>
+                        </div>
+                        <div class="cat-pill" id="home-pill-men" onclick="selectHomeCategory('men', this)" title="Men's Garment Care">
+                            <div class="cat-icon-circle cyan">
+                                <img src="assets/cat-men.png" alt="Men's Wear" class="cat-3d-img">
+                            </div>
+                            <span>Men's Wear</span>
+                        </div>
+                        <div class="cat-pill" id="home-pill-women" onclick="selectHomeCategory('women', this)" title="Women's & Bridal Wear">
+                            <div class="cat-icon-circle pink">
+                                <img src="assets/cat-women.png" alt="Women's Wear" class="cat-3d-img">
+                            </div>
+                            <span>Women's Wear</span>
+                        </div>
+                        <div class="cat-pill" id="home-pill-home" onclick="selectHomeCategory('home', this)" title="Home, Linen & Bedding Spa">
+                            <div class="cat-icon-circle blue">
+                                <img src="assets/cat-home.png?v=2" alt="Home &amp; Linen" class="cat-3d-img">
+                            </div>
+                            <span>Home &amp; Linen</span>
+                        </div>
+                        <div class="cat-pill" id="home-pill-sofa" onclick="selectHomeCategory('sofa', this)" title="Sofa & Carpet Cleaning">
+                            <div class="cat-icon-circle green">
+                                <img src="assets/cat-sofa.png?v=2" alt="Sofa &amp; Carpet" class="cat-3d-img">
+                            </div>
+                            <span>Sofa &amp; Carpet</span>
+                        </div>
+                    </div>
+
+                    <!-- 4 DYNAMIC HIGHLIGHT SERVICE CARDS FOR ACTIVE CATEGORY -->
+                    <div class="services-responsive-grid four-col-grid" id="homeCategoryItemsContainer">
+                        <!-- Populated dynamically by script.js -->
+                    </div>
+
+                    <!-- SMALL COMPACT VIEW MORE OPTION -->
+                    <div class="home-cat-view-more-wrapper">
+                        <button class="btn-view-more-small" id="btnHomeViewAll" onclick="openCategoryFullPage(currentHomeCat)" title="View more products in this category">
+                            <span>View More</span> <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                    <!-- WHY CHOOSE US: 4 DETAIL CARDS WITH IMAGES -->
+                    <div class="section-title-row" style="margin-top: 14px; margin-bottom: 14px;">
+                        <div>
+                            <span class="badge-soft">Trusted in New Town</span>
+                            <h3 style="font-size: 1.2rem; font-weight: 800; margin-top: 4px;">Why Choose The Supreme Laundry?</h3>
+                        </div>
+                    </div>
+
+                    <div class="why-features-grid">
+                        <!-- Card 1: Free Doorstep Pickup -->
+                        <div class="why-feature-card">
+                            <div class="wfc-img-wrap">
+                                <img src="assets/why-pickup.jpg" alt="Free Doorstep Laundry Pickup" class="wfc-img">
+                                <span class="wfc-badge pickup"><i class="fas fa-truck"></i> Free Pickup</span>
+                            </div>
+                            <div class="wfc-body">
+                                <h4>Free Doorstep Pickup</h4>
+                                <p>Complimentary collection &amp; drop-off across Action Area 2 &amp; New Town on orders above ₹300.</p>
+                                <div class="wfc-footer">
+                                    <span class="wfc-pill"><i class="fas fa-check-circle"></i> Free Above ₹300</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Hygienic Washing -->
+                        <div class="why-feature-card">
+                            <div class="wfc-img-wrap">
+                                <img src="assets/why-wash.jpg" alt="Hygienic Washing & Sanitization" class="wfc-img">
+                                <span class="wfc-badge hygiene"><i class="fas fa-shield-virus"></i> Fabric Hygiene</span>
+                            </div>
+                            <div class="wfc-body">
+                                <h4>Hygienic Washing</h4>
+                                <p>Antiseptic wash with fabric-safe premium conditioners and 100% gentle fabric sanitization.</p>
+                                <div class="wfc-footer">
+                                    <span class="wfc-pill"><i class="fas fa-leaf"></i> Anti-Bacterial &amp; Safe</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Express 24h Service -->
+                        <div class="why-feature-card">
+                            <div class="wfc-img-wrap">
+                                <img src="assets/why-express.jpg" alt="Express 24h Turnaround Service" class="wfc-img">
+                                <span class="wfc-badge express"><i class="fas fa-bolt"></i> 24h Express</span>
+                            </div>
+                            <div class="wfc-body">
+                                <h4>Express 24h Service</h4>
+                                <p>Superfast turnaround with precision commercial steam press available on demand (+50% extra).</p>
+                                <div class="wfc-footer">
+                                    <span class="wfc-pill"><i class="fas fa-stopwatch"></i> Within 24 Hours</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Transparent Piece Rates -->
+                        <div class="why-feature-card">
+                            <div class="wfc-img-wrap">
+                                <img src="assets/why-rates.jpg" alt="Transparent Piece Rates" class="wfc-img">
+                                <span class="wfc-badge rates"><i class="fas fa-receipt"></i> Transparent</span>
+                            </div>
+                            <div class="wfc-body">
+                                <h4>Transparent Piece Rates</h4>
+                                <p>Fixed per-piece rates with clear digital invoicing and zero hidden fees or surprises.</p>
+                                <div class="wfc-footer">
+                                    <span class="wfc-pill"><i class="fas fa-tag"></i> Steam Press From ₹15</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PHYSICAL STORE SPOTLIGHT CARD (WITH THE SUPREME LAUNDRY STOREFRONT IMAGE) -->
+                    <div class="store-spotlight-card">
+                        <div class="ssc-image-wrapper">
+                            <img src="assets/storefront.jpg" alt="The Supreme Laundry Storefront in New Town" class="ssc-store-img">
+                            <div class="ssc-status-badge">
+                                <span class="live-dot"></span> Store Open &bull; 9:00 AM – 9:00 PM Daily
+                            </div>
+                        </div>
+                        <div class="ssc-content">
+                            <div class="ssc-head">
+                                <span class="badge-soft">Physical Store in New Town</span>
+                                <h3>Visit The Supreme Laundry</h3>
+                                <p class="ssc-tagline">Walk in with your garments or connect directly with our store specialists.</p>
+                            </div>
+                            <div class="ssc-info-list">
+                                <div class="ssc-info-item">
+                                    <div class="ssc-icon-circle"><i class="fas fa-map-marker-alt"></i></div>
+                                    <div>
+                                        <strong>Plot II G/7, Near Kalurmore Bus Stand</strong>
+                                        <p>Action Area 2, New Town, Kolkata 700160.</p>
+                                    </div>
+                                </div>
+                                <div class="ssc-info-item">
+                                    <div class="ssc-icon-circle"><i class="fas fa-clock"></i></div>
+                                    <div>
+                                        <strong>Store Timings</strong>
+                                        <p>9:00 AM – 9:00 PM (Open 7 Days a Week)</p>
+                                    </div>
+                                </div>
+                                <div class="ssc-info-item">
+                                    <div class="ssc-icon-circle"><i class="fas fa-phone-alt"></i></div>
+                                    <div>
+                                        <strong>Direct Helpline</strong>
+                                        <p><a href="tel:9007895400" class="ssc-tel">9007895400</a> / <a href="tel:7890835228" class="ssc-tel">78908 35228</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ssc-buttons">
+                                <a href="https://maps.app.goo.gl/jxj6XKyMj5zhcPMJA" target="_blank" class="btn-map-desktop">
+                                    <i class="fas fa-directions"></i> Open in Google Maps
+                                </a>
+                                <a href="tel:9007895400" class="btn-primary-desktop">
+                                    <i class="fas fa-phone-alt"></i> Call 9007895400
+                                </a>
+                                <a href="https://wa.me/919007895400?text=Hello%20The%20Supreme%20Laundry,%20I%20would%20like%20to%20visit%20your%20store." target="_blank" class="btn-wa-desktop">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp Store
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LAUNDRY BEST PRACTICES & SPECIALTIES CAROUSEL -->
+                    <div class="section-title-row compact-tips-title" style="margin-top: 16px; margin-bottom: 10px;">
+                        <div class="str-left">
+                            <h3 style="font-size: 1.02rem; font-weight: 800; margin-bottom: 2px;">Laundry Best Practices &amp; Specialties</h3>
+                            <span class="str-sub" style="font-size: 0.74rem;">Fabric care tips, before &amp; after revival &amp; our specialties</span>
+                        </div>
+                    </div>
+
+                    <div class="tips-carousel-wrapper" id="tipsCarouselWrapper">
+                        <button class="carousel-arrow tips-arrow prev" onclick="scrollTipsCarousel(-1)" aria-label="Previous Tip Card">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+
+                        <div class="tips-carousel-track" id="tipsCarouselTrack">
+                            <!-- Card 1: BEST PRACTICES -->
+                            <div class="tips-carousel-card" onclick="switchView('view-tips')">
+                                <div class="tcc-img-box">
+                                    <img src="assets/tip-best-practices.jpg" onerror="this.onerror=null; this.src='assets/why-wash.jpg';" alt="Laundry Best Practices" class="tcc-img">
+                                    <span class="tcc-badge badge-blue"><i class="fas fa-clipboard-check"></i> BEST PRACTICES</span>
+                                </div>
+                                <div class="tcc-content">
+                                    <h4>Tackle Stains &amp; Fabric Care</h4>
+                                    <p class="tcc-desc">Proper garment segregation and quick action prevent color bleeding and permanent fabric damage.</p>
+                                    <ul class="tcc-checklist">
+                                        <li><i class="fas fa-check-circle"></i> Segregate whites, darks &amp; delicates</li>
+                                        <li><i class="fas fa-check-circle"></i> Pre-treat collar grease &amp; ink immediately</li>
+                                        <li><i class="fas fa-check-circle"></i> Protect heavy embroidery &amp; delicate zari</li>
+                                    </ul>
+                                    <div class="tcc-footer">
+                                        <span class="tcc-action-btn">Read 7 Fabric Guidelines &rarr;</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: BEFORE & AFTER -->
+                            <div class="tips-carousel-card" onclick="switchView('view-pricing'); switchPriceTab('iron');">
+                                <div class="tcc-img-box">
+                                    <img src="assets/tip-before-after.jpg" onerror="this.onerror=null; this.src='assets/banner-special.jpg';" alt="Garment Transformation Before and After" class="tcc-img">
+                                    <span class="tcc-badge badge-amber"><i class="fas fa-magic"></i> BEFORE &amp; AFTER</span>
+                                </div>
+                                <div class="tcc-content">
+                                    <h4>Garment Revival: Before &amp; After</h4>
+                                    <p class="tcc-desc">From crumpled, dull &amp; stained garments to showroom-fresh crispness with high-pressure steam finishing.</p>
+                                    <ul class="tcc-checklist">
+                                        <li><i class="fas fa-check-circle"></i> Stubborn collar &amp; cuff grime lift</li>
+                                        <li><i class="fas fa-check-circle"></i> 100% wrinkle-free steam press finish</li>
+                                        <li><i class="fas fa-check-circle"></i> Restores original fabric luster &amp; softness</li>
+                                    </ul>
+                                    <div class="tcc-footer">
+                                        <span class="tcc-action-btn">Book Steam Press &rarr;</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: WHAT WE ARE BEST IN -->
+                            <div class="tips-carousel-card" onclick="openCategoryFullPage('women')">
+                                <div class="tcc-img-box">
+                                    <img src="assets/tip-specialty.jpg" onerror="this.onerror=null; this.src='assets/about-section.jpg';" alt="What We Are Best In" class="tcc-img">
+                                    <span class="tcc-badge badge-purple"><i class="fas fa-crown"></i> WHAT WE ARE BEST IN</span>
+                                </div>
+                                <div class="tcc-content">
+                                    <h4>What We Are Best In</h4>
+                                    <p class="tcc-desc">Artisan dry-cleaning &amp; steam finishing of designer bridal wear, pure silk sarees &amp; luxury bespoke suits.</p>
+                                    <ul class="tcc-checklist">
+                                        <li><i class="fas fa-check-circle"></i> Bridal lehengas &amp; Banarasi silk sarees</li>
+                                        <li><i class="fas fa-check-circle"></i> Tuxedo, blazer &amp; two-piece suit shaping</li>
+                                        <li><i class="fas fa-check-circle"></i> Antiseptic zero-shrink delicate wash</li>
+                                    </ul>
+                                    <div class="tcc-footer">
+                                        <span class="tcc-action-btn">Explore Luxury Specialties &rarr;</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="carousel-arrow tips-arrow next" onclick="scrollTipsCarousel(1)" aria-label="Next Tip Card">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+                        <!-- CAROUSEL DOTS -->
+                        <div class="carousel-dots-strip tips-dots" id="tipsCarouselDots">
+                            <span class="c-dot active" onclick="goToTipsSlide(0)"></span>
+                            <span class="c-dot" onclick="goToTipsSlide(1)"></span>
+                            <span class="c-dot" onclick="goToTipsSlide(2)"></span>
+                        </div>
+                    </div>
+
+                    <div style="height: 30px;"></div>
+                </section>
+
+                <!-- ================= VIEW 2: PRICING & CART ================= -->
+                <section class="app-view" id="view-pricing">
+                    
+                    <!-- COMPACT RATE CHART TOP BAR -->
+                    <div class="rate-chart-header">
+                        <button class="btn-back-nav" onclick="switchView('view-home')" title="Return to Home">
+                            <i class="fas fa-arrow-left"></i> <span>Home</span>
+                        </button>
+                        <div class="rch-title-wrap">
+                            <h2>Rate Card &amp; Price Chart</h2>
+                            <p class="rch-subtitle">Official Brochure Pricing • Free Doorstep Pickup: 9007895400</p>
+                        </div>
+                    </div>
+
+                    <!-- PROPER FILTER SYSTEM (Category Chips + Service Chips + Live Search) -->
+                    <div class="rate-filter-section">
+                        <!-- CATEGORY CHIPS (Horizontal Scrollable) -->
+                        <div class="category-chip-bar" id="priceCategoryChips">
+                            <button class="filter-chip active" data-cat="all" onclick="filterByCat('all', this)">
+                                <i class="fas fa-layer-group"></i> All Garments <span class="chip-count">92</span>
+                            </button>
+                            <button class="filter-chip" data-cat="iron" onclick="filterByCat('iron', this)">
+                                <i class="fas fa-temperature-high"></i> Steam Iron <span class="chip-count">12</span>
+                            </button>
+                            <button class="filter-chip" data-cat="men" onclick="filterByCat('men', this)">
+                                <i class="fas fa-user-tie"></i> Men's Wear <span class="chip-count">23</span>
+                            </button>
+                            <button class="filter-chip" data-cat="women" onclick="filterByCat('women', this)">
+                                <i class="fas fa-female"></i> Women's &amp; Bridal <span class="chip-count">19</span>
+                            </button>
+                            <button class="filter-chip" data-cat="home" onclick="filterByCat('home', this)">
+                                <i class="fas fa-bed"></i> Home &amp; Linen <span class="chip-count">34</span>
+                            </button>
+                            <button class="filter-chip" data-cat="sofa" onclick="filterByCat('sofa', this)">
+                                <i class="fas fa-couch"></i> Sofa &amp; Carpet <span class="chip-count">4</span>
+                            </button>
+                        </div>
+
+                        <!-- SERVICE TYPE FILTER PILLS -->
+                        <div class="service-type-bar">
+                            <button class="service-chip active" data-service="all" onclick="filterByService('all', this)">
+                                All Services
+                            </button>
+                            <button class="service-chip" data-service="iron" onclick="filterByService('iron', this)">
+                                <i class="fas fa-temperature-high"></i> Steam Press
+                            </button>
+                            <button class="service-chip" data-service="wash" onclick="filterByService('wash', this)">
+                                <i class="fas fa-water"></i> Wash &amp; Iron
+                            </button>
+                            <button class="service-chip" data-service="dry" onclick="filterByService('dry', this)">
+                                <i class="fas fa-wind"></i> Dry Clean
+                            </button>
+                            <button class="service-chip" data-service="prem" onclick="filterByService('prem', this)">
+                                <i class="fas fa-gem"></i> Premium Care
+                            </button>
+                        </div>
+
+                        <!-- SEARCH & RESULTS COUNT BAR -->
+                        <div class="rate-search-row">
+                            <div class="table-search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="priceFilterInput" placeholder="Search garment (e.g. shirt, saree, lehenga, coat, curtain, blanket)..." oninput="handlePriceSearch(this.value)">
+                                <button class="search-clear-btn" id="priceClearSearchBtn" onclick="clearPriceSearch()" style="display:none;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="rate-status-info">
+                                <span class="item-counter-badge" id="rateItemsCount">Showing 92 items</span>
+                                <div class="view-mode-toggle">
+                                    <button class="btn-view-mode active" id="btnViewGrid" onclick="setPriceViewMode('grid')" title="Box Grid View">
+                                        <i class="fas fa-th-large"></i> Boxes
+                                    </button>
+                                    <button class="btn-view-mode" id="btnViewTable" onclick="setPriceViewMode('table')" title="Detailed Rate Table">
+                                        <i class="fas fa-table"></i> Table
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pricing-desktop-layout">
+                        <!-- LEFT / MAIN: RATE CHART TABLE & CARDS -->
+                        <div class="pricing-main-col">
+
+                            <!-- RATE CHART TABLE HEADER (Visible only in Table Mode on Desktop) -->
+                            <div class="rate-table-header" id="rateTableHeader" style="display:none;">
+                                <div class="rth-col col-item">Item &amp; Category</div>
+                                <div class="rth-col col-rate">Steam Press</div>
+                                <div class="rth-col col-rate">Wash &amp; Iron</div>
+                                <div class="rth-col col-rate">Dry Clean</div>
+                                <div class="rth-col col-rate">Premium Care</div>
+                                <div class="rth-col col-action">Order</div>
+                            </div>
+
+                            <!-- PRICE LIST / RATE CHART CONTAINER (GRID OF UNIFORM BOXES BY DEFAULT) -->
+                            <div class="price-items-grid" id="priceListContainer">
+                                <!-- Populated dynamically by script.js -->
+                            </div>
+
+                            <!-- CUSTOM QUOTE & DIRECT HELPLINE BANNER -->
+                            <div class="pricing-help-strip">
+                                <div class="phs-info">
+                                    <h4>Need a custom quote for bridal lehengas or designer sarees?</h4>
+                                    <p>We provide delicate handling evaluation and doorstep pickup near Kalurmore Bus Stand.</p>
+                                </div>
+                                <div class="phs-actions">
+                                    <a href="https://wa.me/919007895400?text=Hello%20The%20Supreme%20Laundry,%20I%20need%20a%20price%20quote%20for%20my%20garments." target="_blank" class="btn-phs-wa">
+                                        <i class="fab fa-whatsapp"></i> WhatsApp 9007895400
+                                    </a>
+                                    <a href="tel:9007895400" class="btn-phs-call">
+                                        <i class="fas fa-phone-alt"></i> Call 9007895400
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT: DESKTOP STICKY ORDER CART SIDEBAR (Visible on Desktop >= 1024px) -->
+                        <div class="pricing-sidebar-col">
+                            <div class="desktop-cart-card">
+                                <div class="dcc-header">
+                                    <h3><i class="fas fa-shopping-bag"></i> Order Summary</h3>
+                                    <span class="dcc-count" id="dccCountBadge">0 Items</span>
+                                </div>
+                                <div class="dcc-body" id="dccItemsList">
+                                    <div class="dcc-empty">
+                                        <i class="fas fa-tshirt"></i>
+                                        <p>No garments selected yet.<br>Click <strong>+</strong> on any garment to add to your order.</p>
+                                    </div>
+                                </div>
+                                <div class="dcc-footer">
+                                    <div class="dcc-total-row">
+                                        <span>Estimated Total:</span>
+                                        <strong id="dccTotalAmount">₹0</strong>
+                                    </div>
+                                    <p class="dcc-free-pickup"><i class="fas fa-check-circle"></i> FREE Pickup &amp; Delivery Included</p>
+                                    <button class="dcc-checkout-btn" onclick="openOrderModal()">
+                                        <i class="fas fa-calendar-check"></i> Schedule Pickup Now
+                                    </button>
+                                    <button type="button" class="dcc-invoice-btn" onclick="generateAndShowInvoice()">
+                                        <i class="fas fa-file-invoice-dollar"></i> View &amp; Download Bill (PDF)
+                                    </button>
+                                    <div class="dcc-helpline">
+                                        <span>Need help? Call:</span>
+                                        <a href="tel:9007895400">9007895400</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="height: 60px;"></div>
+                </section>
+
+                <!-- ================= VIEW 3: TRACK ORDER ================= -->
+                <section class="app-view" id="view-track">
+                    <div class="view-header-bar">
+                        <div>
+                            <h2>Order Tracking Pipeline</h2>
+                            <p>Real-time order stages &amp; turnaround status</p>
+                        </div>
+                    </div>
+
+                    <div class="track-lookup-card">
+                        <label>Enter Order ID or Registered Mobile Number</label>
+                        <div class="track-input-group">
+                            <input type="text" id="trackInput" value="9007895400" placeholder="e.g. 9007895400 or #SL-8924">
+                            <button class="btn-check-status" onclick="simulateTrack()">Track Status</button>
+                        </div>
+                    </div>
+
+                    <!-- ORDER TIMELINE -->
+                    <div class="tracking-timeline-card">
+                        <div class="ttc-header">
+                            <div>
+                                <span class="badge-status">In Process</span>
+                                <h3 id="displayOrderId">Order #SL-900789</h3>
+                            </div>
+                            <div class="ttc-date">
+                                <span>Doorstep Pickup</span>
+                                <strong>Action Area 2, New Town</strong>
+                            </div>
+                        </div>
+
+                        <div class="timeline-stepper">
+                            <div class="step-point completed">
+                                <div class="step-bubble"><i class="fas fa-check"></i></div>
+                                <div class="step-info">
+                                    <strong>Order Placed &amp; Confirmed</strong>
+                                    <span>Booking registered via WhatsApp / Direct Call (9007895400)</span>
+                                </div>
+                            </div>
+                            <div class="step-point completed">
+                                <div class="step-bubble"><i class="fas fa-check"></i></div>
+                                <div class="step-info">
+                                    <strong>Rider Dispatched for Pickup</strong>
+                                    <span>Free doorstep collection at your scheduled time</span>
+                                </div>
+                            </div>
+                            <div class="step-point active">
+                                <div class="step-bubble"><i class="fas fa-sync-alt fa-spin"></i></div>
+                                <div class="step-info">
+                                    <strong>In Washing &amp; Treatment</strong>
+                                    <span>Eco-solvent dry cleaning, stain treatment &amp; steam press</span>
+                                </div>
+                            </div>
+                            <div class="step-point">
+                                <div class="step-bubble"><i class="fas fa-box"></i></div>
+                                <div class="step-info">
+                                    <strong>Quality Check &amp; Packaging</strong>
+                                    <span>Hanger packed / sealed protective garment bag</span>
+                                </div>
+                            </div>
+                            <div class="step-point">
+                                <div class="step-bubble"><i class="fas fa-home"></i></div>
+                                <div class="step-info">
+                                    <strong>Out for Doorstep Delivery</strong>
+                                    <span>Delivered back fresh &amp; crisp</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="direct-support-box">
+                            <p>Need urgent Express delivery within 24 hours?</p>
+                            <a href="tel:9007895400" class="btn-express-call">
+                                <i class="fas fa-bolt"></i> Call 9007895400 for Express (+50%)
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style="height: 50px;"></div>
+                </section>
+
+                <!-- ================= VIEW 4: CARE TIPS & TERMS ================= -->
+                <section class="app-view" id="view-tips">
+                    <div class="view-header-bar">
+                        <div>
+                            <h2>Garment Care Guidelines &amp; Policy</h2>
+                            <p>Official store terms (all 18 points) &amp; care practices</p>
+                        </div>
+                    </div>
+
+                    <div class="tips-and-terms-grid">
+                        <!-- TIPS CARD -->
+                        <div class="info-card">
+                            <h3 class="info-title"><i class="fas fa-sparkles"></i> Laundry Best Practices</h3>
+                            <div class="tip-item-card">
+                                <span class="tip-num">01</span>
+                                <div>
+                                    <h4>Tackle Stains Immediately</h4>
+                                    <p>The quicker you treat a stain the better it is. Don't let grease, wine, or oil dry up.</p>
+                                </div>
+                            </div>
+                            <div class="tip-item-card">
+                                <span class="tip-num">02</span>
+                                <div>
+                                    <h4>Sort Into Three Piles</h4>
+                                    <p>Always separate light whites, dark colours, and delicate fabrics with embellishments.</p>
+                                </div>
+                            </div>
+                            <div class="tip-item-card">
+                                <span class="tip-num">03</span>
+                                <div>
+                                    <h4>Add-On Heavy Stain Service</h4>
+                                    <p>Normal wash cycles might not lift old dried marks. Ask our executive for stain add-on.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- OFFICIAL TERMS (ALL 18 POINTS ACCORDION) -->
+                        <div class="info-card">
+                            <h3 class="info-title"><i class="fas fa-file-contract"></i> Store Terms &amp; Conditions</h3>
+                            <p class="terms-subtitle">As printed on customer challan:</p>
+
+                            <div class="accordion-list">
+                                <div class="acc-group active">
+                                    <div class="acc-head" onclick="toggleAcc(this)">
+                                        <span>1–3. Pickup, Delivery &amp; Express</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="acc-body">
+                                        <ul>
+                                            <li><strong>1.</strong> Customers must present the original bill or challan copy. If lost, delivery made only after owner credential verification.</li>
+                                            <li><strong>2.</strong> Express / Urgent delivery will be charged <strong>50% extra</strong> over regular tariff.</li>
+                                            <li><strong>3.</strong> Customers must examine articles upon delivery; we are not responsible for damages found after delivery.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="acc-group">
+                                    <div class="acc-head" onclick="toggleAcc(this)">
+                                        <span>4–7. Quality, Bleed &amp; Stains</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="acc-body">
+                                        <ul>
+                                            <li><strong>4.</strong> In case of dissatisfaction with service, contact store within <strong>24 hours</strong> for resolution.</li>
+                                            <li><strong>5.</strong> Not responsible for fastness, colour bleed, colour running, shrinkage, or embellishment / embroidery damage during processing.</li>
+                                            <li><strong>6.</strong> We put best efforts to remove stains but cannot guarantee 100% removal; no deduction in charges permitted.</li>
+                                            <li><strong>7.</strong> Articles accepted at customer's risk if unable to withstand standard dry-cleaning.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="acc-group">
+                                    <div class="acc-head" onclick="toggleAcc(this)">
+                                        <span>8–13. Aging, Ornaments &amp; Unclaimed</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="acc-body">
+                                        <ul>
+                                            <li><strong>8.</strong> No responsibility for damage due to natural aging of inferior quality fabric.</li>
+                                            <li><strong>9.</strong> Not responsible for ornaments or jewelry fittings damaged during processing.</li>
+                                            <li><strong>10.</strong> Not liable for cuts, tears, manufacturing defects, or deterioration from prior wear.</li>
+                                            <li><strong>11.</strong> No responsibility for clothes left beyond <strong>6 (six) weeks</strong> from scheduled delivery date.</li>
+                                            <li><strong>12.</strong> No liability for fire, burglary or events beyond operational control.</li>
+                                            <li><strong>13.</strong> Check pockets: no responsibility for cash, jewelry or valuables left in garments.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="acc-group">
+                                    <div class="acc-head" onclick="toggleAcc(this)">
+                                        <span>14–18. Designer Wear &amp; Compensation</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="acc-body">
+                                        <ul>
+                                            <li><strong>14.</strong> High-end designer wear tariffs decided on case-to-case evaluation.</li>
+                                            <li><strong>15.</strong> Compensation for accidental damage limited to <strong>5 times the processing fee or INR 1,500/-, whichever is lower</strong>.</li>
+                                            <li><strong>16.</strong> All disputes subject to jurisdiction of local courts under state law.</li>
+                                            <li><strong>17.</strong> Management reserves the right to alter terms without prior intimation.</li>
+                                            <li><strong>18.</strong> Any changes in terms come under store management's jurisdiction.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="height: 50px;"></div>
+                </section>
+
+                <!-- ================= VIEW 5: STORE INFO / CONTACT ================= -->
+                <section class="app-view" id="view-profile">
+                    <div class="view-header-bar">
+                        <div>
+                            <h2>Store Profile &amp; Contact</h2>
+                            <p>Physical facility location &amp; direct helpline numbers</p>
+                        </div>
+                    </div>
+
+                    <div class="profile-desktop-grid">
+                        <!-- STORE PROFILE BANNER -->
+                        <div class="store-hero-card">
+                            <img src="assets/logo.png" alt="The Supreme Laundry" class="shc-logo">
+                            <div class="shc-details">
+                                <h3>The Supreme Laundry</h3>
+                                <p class="shc-sub"><i class="fas fa-check-circle verified-icon"></i> Premium Garment Care Facility</p>
+                                <span class="badge-open"><i class="fas fa-clock"></i> Open: 9:00 AM – 9:00 PM (Mon–Sun)</span>
+                            </div>
+                        </div>
+
+                        <!-- INSTANT ACTION TILES (9007895400) -->
+                        <div class="contact-action-grid">
+                            <a href="tel:9007895400" class="c-action-btn call-btn">
+                                <i class="fas fa-phone-alt"></i>
+                                <div>
+                                    <strong>Call 9007895400</strong>
+                                    <span>Direct Order &amp; Enquiries</span>
+                                </div>
+                            </a>
+
+                            <a href="https://wa.me/919007895400?text=Hello%20The%20Supreme%20Laundry,%20I%20want%20to%20schedule%20a%20doorstep%20pickup." target="_blank" class="c-action-btn wa-btn">
+                                <i class="fab fa-whatsapp"></i>
+                                <div>
+                                    <strong>WhatsApp 9007895400</strong>
+                                    <span>Send Garment Photos / Schedule</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-details-desktop-row">
+                        <!-- ADDRESS CARD -->
+                        <div class="info-card">
+                            <h3 class="info-title"><i class="fas fa-map-marked-alt"></i> Store Location &amp; Service Area</h3>
+                            <div class="store-address-box">
+                                <div class="addr-icon"><i class="fas fa-store"></i></div>
+                                <div class="addr-text">
+                                    <strong>The Supreme Laundry</strong>
+                                    <p>Plot II G/7, <strong>Near Kalurmore Bus Stand</strong>,<br>Action Area 2, New Town, Kolkata 700160.</p>
+                                    <div style="margin-top: 8px;">
+                                        <a href="https://maps.app.goo.gl/jxj6XKyMj5zhcPMJA" target="_blank" class="btn-map-desktop" style="display:inline-flex; font-size:0.75rem; padding:6px 14px;">
+                                            <i class="fas fa-map-marked-alt"></i> Navigate on Google Maps
+                                        </a>
+                                    </div>
+                                    <span class="delivery-notice" style="margin-top: 8px;"><i class="fas fa-motorcycle"></i> Doorstep Pickup &amp; Delivery Active</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- HELPLINE NUMBERS -->
+                        <div class="info-card">
+                            <h3 class="info-title"><i class="fas fa-headset"></i> Contact Hotline</h3>
+                            <div class="phone-row">
+                                <span>Primary WhatsApp &amp; Call:</span>
+                                <a href="tel:9007895400" class="strong-link">9007895400</a>
+                            </div>
+                            <div class="phone-row">
+                                <span>Store Desk:</span>
+                                <a href="tel:9831930837" class="strong-link">98319 30837</a>
+                            </div>
+                            <div class="phone-row">
+                                <span>Helpdesk:</span>
+                                <a href="tel:7890835228" class="strong-link">78908 35228</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="height: 50px;"></div>
+                </section>
+
+            </main>
+
+            <!-- ======================================================
+                 MOBILE-ONLY FLOATING CART BAR (< 768px)
+                 ====================================================== -->
+            <div class="cart-floating-bar" id="cartFloatingBar">
+                <div class="cfb-left">
+                    <div class="cfb-count-bubble" id="cfbItemCount">0</div>
+                    <div class="cfb-details">
+                        <span class="cfb-label">Estimated Total</span>
+                        <h4 class="cfb-price" id="cfbTotalPrice">₹0</h4>
+                    </div>
+                </div>
+                <button class="cfb-checkout-btn" onclick="openOrderModal()">
+                    <span>Book Pickup</span> <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- ======================================================
+                 MOBILE-ONLY BOTTOM NAVIGATION BAR (< 768px)
+                 ====================================================== -->
+            <nav class="app-bottom-nav">
+                <button class="b-nav-item active" onclick="switchView('view-home')">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </button>
+                <button class="b-nav-item" onclick="switchView('view-pricing')">
+                    <i class="fas fa-tshirt"></i>
+                    <span>Price List</span>
+                </button>
+                <button class="b-nav-item primary-fab" onclick="quickScheduleModal()">
+                    <div class="fab-circle">
+                        <i class="fas fa-plus"></i>
+                    </div>
+                    <span>Book</span>
+                </button>
+                <button class="b-nav-item" onclick="switchView('view-track')">
+                    <i class="fas fa-route"></i>
+                    <span>Track</span>
+                </button>
+                <button class="b-nav-item" onclick="switchView('view-profile')">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </button>
+            </nav>
+
+        </div> <!-- /app-shell -->
+
+        <!-- ======================================================
+             DESKTOP FOOTER (Visible on tablet & desktop >= 768px)
+             ====================================================== -->
+        <footer class="desktop-footer">
+            <div class="desktop-footer-container">
+                <div class="df-col brand-col">
+                    <div class="df-brand">
+                        <img src="assets/logo.png" alt="The Supreme Laundry Logo" class="df-logo">
+                        <div>
+                            <h4>The Supreme Laundry</h4>
+                            <p>We take care of your premium clothes</p>
+                        </div>
+                    </div>
+                    <p class="df-desc">
+                        Professional laundry, delicate dry cleaning, steam ironing, and sofa sanitization with free doorstep pickup across New Town, Kolkata.
+                    </p>
+                    <div class="df-hotline">
+                        <i class="fas fa-phone-alt"></i> Hotline: <a href="tel:9007895400">9007895400</a>
+                    </div>
+                </div>
+
+                <div class="df-col">
+                    <h5>Quick Navigation</h5>
+                    <ul>
+                        <li><a href="javascript:void(0)" onclick="switchView('view-home')">Home</a></li>
+                        <li><a href="javascript:void(0)" onclick="switchView('view-pricing')">Full Price Menu</a></li>
+                        <li><a href="javascript:void(0)" onclick="switchView('view-track')">Track Order</a></li>
+                        <li><a href="javascript:void(0)" onclick="switchView('view-tips')">Care Best Practices</a></li>
+                        <li><a href="javascript:void(0)" onclick="switchView('view-tips')">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+
+                <div class="df-col">
+                    <h5>Popular Services</h5>
+                    <ul>
+                        <li><a href="javascript:void(0)" onclick="selectServiceCategory('steam-iron')">Steam Ironing (From ₹15)</a></li>
+                        <li><a href="javascript:void(0)" onclick="selectServiceCategory('mens-wear')">Men's Soft Dry Cleaning</a></li>
+                        <li><a href="javascript:void(0)" onclick="selectServiceCategory('womens-wear')">Designer Saree &amp; Bridal</a></li>
+                        <li><a href="javascript:void(0)" onclick="selectServiceCategory('home')">Bed Linens &amp; Quilts</a></li>
+                        <li><a href="javascript:void(0)" onclick="selectServiceCategory('sofa')">Sofa &amp; Carpet Deep Clean</a></li>
+                    </ul>
+                </div>
+
+                <div class="df-col">
+                    <h5>Store Location</h5>
+                    <p class="df-addr">
+                        Plot II G/7, <strong>Near Kalurmore Bus Stand</strong>,<br>
+                        Action Area 2, New Town, Kolkata 700160.
+                    </p>
+                    <p class="df-timing"><i class="fas fa-clock"></i> 9:00 AM – 9:00 PM Daily</p>
+                    <div class="df-contact-buttons">
+                        <a href="https://maps.app.goo.gl/jxj6XKyMj5zhcPMJA" target="_blank" class="df-btn-map" title="View on Google Maps">
+                            <i class="fas fa-map-marker-alt"></i> View Map
+                        </a>
+                        <a href="tel:9007895400" class="df-btn-call"><i class="fas fa-phone-alt"></i> Call</a>
+                        <a href="https://wa.me/919007895400" target="_blank" class="df-btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="desktop-footer-bottom">
+                <p>&copy; 2024 The Supreme Laundry. All rights reserved. New Town, Kolkata. &bull; <a href="admin/" target="_blank" style="color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.76rem;"><i class="fas fa-lock"></i> Store Admin Portal</a></p>
+            </div>
+        </footer>
+
+    </div> <!-- /responsive-wrapper -->
+
+    <!-- ==========================================================
+         ZOMATO-STYLE SERVICE CUSTOMIZER MODAL (Fabric Care Selector)
+         ========================================================== -->
+    <div class="modal-backdrop" id="customizerBackdrop" onclick="closeCustomizerModal()"></div>
+    <div class="bottom-sheet customizer-sheet" id="customizerBottomSheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header customizer-header">
+            <div class="cz-header-info">
+                <div class="cz-thumb-wrap" id="czThumbWrap">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <div class="cz-header-text">
+                    <h3 id="czItemName">Garment Name</h3>
+                    <p class="cz-item-category" id="czItemCat">Fabric Care</p>
+                </div>
+            </div>
+            <button class="sheet-close" onclick="closeCustomizerModal()" aria-label="Close">&times;</button>
+        </div>
+        
+        <div class="sheet-body customizer-body">
+            <div class="cz-section-header">
+                <div>
+                    <span class="cz-section-title">Select Fabric Care Service</span>
+                    <span class="cz-section-subtitle">Choose the treatment suited for your fabric</span>
+                </div>
+                <span class="cz-required-badge">REQUIRED • CHOOSE 1</span>
+            </div>
+
+            <!-- OPTIONS LIST (Soft Wash & Iron, Soft Dry Clean, Premium Dry Clean) -->
+            <div class="cz-options-list" id="czOptionsList">
+                <!-- Dynamically populated by js/cart.js -->
+            </div>
+
+            <!-- QUANTITY PICKER -->
+            <div class="cz-qty-bar">
+                <div class="cz-qty-label-group">
+                    <span class="cz-qty-title">Quantity</span>
+                    <span class="cz-qty-hint">Number of pieces</span>
+                </div>
+                <div class="cz-qty-counter">
+                    <button type="button" class="cz-btn-qty minus" onclick="changeCustomizerQty(-1)" title="Decrease">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <span class="cz-qty-number" id="czQtyVal">1</span>
+                    <button type="button" class="cz-btn-qty plus" onclick="changeCustomizerQty(1)" title="Increase">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- FOOTER ACTION BUTTON (Zomato Style) -->
+            <div class="cz-footer-bar">
+                <div class="cz-total-summary">
+                    <span class="cz-tot-label">Item Total</span>
+                    <span class="cz-tot-price" id="czTotalPrice">₹0</span>
+                </div>
+                <button type="button" class="cz-submit-btn" id="czSubmitBtn" onclick="confirmCustomizerAdd()">
+                    <span>Add to Cart</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         ORDER & BOOKING BOTTOM SHEET MODAL (Responsive)
+         ========================================================== -->
+    <div class="modal-backdrop" id="orderModalBackdrop" onclick="closeOrderModal()"></div>
+    <div class="bottom-sheet" id="orderBottomSheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+            <div>
+                <h3>Schedule Doorstep Pickup</h3>
+                <p class="sheet-sub">FREE Pickup &amp; Delivery above ₹300 in Action Area 2 &amp; New Town</p>
+            </div>
+            <button class="sheet-close" onclick="closeOrderModal()">&times;</button>
+        </div>
+        
+        <div class="sheet-body">
+            <div class="sheet-summary" id="orderItemsSummary">
+                <!-- Dynamic summary injected by script.js -->
+            </div>
+
+            <form id="pickupForm" onsubmit="handleOrderSubmit(event)">
+                <div class="input-row">
+                    <div class="input-field">
+                        <label><i class="fas fa-user"></i> Full Name *</label>
+                        <input type="text" id="custName" required placeholder="e.g. Rahul Sharma">
+                    </div>
+                    <div class="input-field">
+                        <label><i class="fas fa-phone"></i> Phone Number *</label>
+                        <input type="tel" id="custPhone" required placeholder="e.g. 9876543210">
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <label><i class="fas fa-map-marker-alt"></i> Pickup Address (New Town / Kolkata) *</label>
+                    <textarea id="custAddress" rows="2" required placeholder="Flat No / Apartment / Street, New Town"></textarea>
+                </div>
+
+                <div class="input-row">
+                    <div class="input-field">
+                        <label><i class="fas fa-calendar-alt"></i> Pickup Date</label>
+                        <input type="date" id="custDate">
+                    </div>
+                    <div class="input-field">
+                        <label><i class="fas fa-clock"></i> Preferred Slot</label>
+                        <select id="custSlot">
+                            <option>Morning (9 AM - 1 PM)</option>
+                            <option>Afternoon (1 PM - 5 PM)</option>
+                            <option>Evening (5 PM - 8 PM)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-field">
+                    <label><i class="fas fa-shipping-fast"></i> Speed Option</label>
+                    <select id="custSpeed">
+                        <option value="standard">Standard Free Delivery (24-48 Hours)</option>
+                        <option value="express">Express Delivery (Within 24h, +50% extra)</option>
+                    </select>
+                </div>
+
+                <div class="sheet-actions">
+                    <button type="submit" class="btn-submit-order wa-order">
+                        <i class="fab fa-whatsapp"></i> Confirm Booking on WhatsApp (9007895400)
+                    </button>
+                    <button type="button" class="btn-submit-order inv-order-btn" onclick="generateAndShowInvoice()">
+                        <i class="fas fa-file-invoice-dollar"></i> Generate &amp; Download Bill (PDF)
+                    </button>
+                    <a href="tel:9007895400" class="btn-submit-order call-order">
+                        <i class="fas fa-phone-alt"></i> Or Call 9007895400 Directly
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==========================================================
+         INVOICE / BILL PDF MODAL (Clean, Professional Receipt)
+         ========================================================== -->
+    <div class="modal-backdrop" id="invoiceModalBackdrop" onclick="closeInvoiceModal()"></div>
+    <div class="invoice-modal-wrapper" id="invoiceModalWrapper">
+        <div class="invoice-modal-header">
+            <div class="inv-modal-title">
+                <i class="fas fa-receipt"></i>
+                <span>The Supreme Laundry &bull; Bill &amp; Invoice</span>
+            </div>
+            <div class="inv-header-actions">
+                <button type="button" class="btn-inv-action btn-inv-download" onclick="downloadInvoicePDF()" title="Download PDF File">
+                    <i class="fas fa-download"></i> <span>Download PDF</span>
+                </button>
+                <button type="button" class="btn-inv-action btn-inv-print" onclick="printInvoice()" title="Print Receipt">
+                    <i class="fas fa-print"></i> <span>Print</span>
+                </button>
+                <button type="button" class="inv-close-btn" onclick="closeInvoiceModal()" title="Close">&times;</button>
+            </div>
+        </div>
+
+        <div class="invoice-modal-body">
+            <!-- Printable / Downloadable Invoice Document -->
+            <div class="invoice-card" id="invoicePrintableArea">
+                <!-- Dynamically Rendered by js/cart.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modular Application Scripts (Professional Full-Stack Architecture) -->
+    <script src="js/data.js"></script>
+    <script src="js/carousels.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/views.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
