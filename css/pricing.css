@@ -656,9 +656,16 @@
 /* 4-CATEGORY STRIP ON HOME (Ensures neat spacing on mobile & desktop) */
 .four-cat-strip {
     display: flex;
-    justify-content: space-around;
-    gap: 12px;
-    padding: 6px 0 16px;
+    justify-content: flex-start;
+    gap: 18px;
+    padding: 10px 16px 16px;
+}
+
+@media (min-width: 640px) {
+    .four-cat-strip {
+        justify-content: space-around;
+        gap: 32px;
+    }
 }
 
 /* ==========================================================

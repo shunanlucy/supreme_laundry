@@ -560,18 +560,20 @@
     display: flex;
     gap: 16px;
     overflow-x: auto;
-    padding: 4px 2px 14px;
+    padding: 10px 16px 16px;
     margin-bottom: 18px;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding: 0 16px;
 }
 .category-scroll-strip::-webkit-scrollbar { display: none; }
 
 .four-cat-strip, .three-cat-strip {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
-    gap: 16px;
-    padding: 8px 4px 16px;
+    gap: 18px;
+    padding: 10px 16px 16px;
     margin-bottom: 20px;
 }
 
@@ -583,7 +585,8 @@
 
 @media (min-width: 640px) {
     .four-cat-strip, .three-cat-strip {
-        gap: 36px;
+        justify-content: space-around;
+        gap: 32px;
     }
 }
 
@@ -676,8 +679,9 @@
 
 .cat-pill.active .cat-icon-circle {
     border-color: var(--primary);
-    transform: translateY(-3px) scale(1.06);
-    box-shadow: 0 8px 22px rgba(26, 115, 232, 0.24), 0 0 0 3.5px rgba(26, 115, 232, 0.16);
+    border-width: 3px;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(26, 115, 232, 0.25), 0 0 0 2px rgba(26, 115, 232, 0.14);
 }
 
 .cat-pill.active .cat-3d-img {

@@ -37,7 +37,7 @@ window.PRICE_DATABASE = {
         { id: 'm14', name: 'Shoes (Kids)', washPrice: null, dryPrice: 160, premPrice: 250, cat: "Men's Wear", icon: 'fa-shoe-prints' },
         { id: 'm15', name: 'Shoes (Adult Pair)', washPrice: null, dryPrice: 320, premPrice: 370, cat: "Men's Wear", icon: 'fa-shoe-prints' },
         { id: 'm16', name: 'Socks Per Pair', washPrice: 20, dryPrice: 50, premPrice: 75, cat: "Men's Wear", icon: 'fa-socks' },
-        { id: 'm17', name: 'Shorts', washPrice: 50, dryPrice: 75, premPrice: 100, cat: "Men's Wear", icon: 'fa-user' },
+        { id: 'm17', name: 'Shorts', washPrice: 50, dryPrice: 75, premPrice: 100, cat: "Men's Wear", icon: 'fa-user', img: 'assets/items/item-shorts.jpg' },
         { id: 'm18', name: 'Full Sleeves Sweater / Cardigan', washPrice: null, dryPrice: 190, premPrice: 260, cat: "Men's Wear", icon: 'fa-snowflake' },
         { id: 'm19', name: 'Sleeveless Sweater / Cardigan', washPrice: null, dryPrice: 150, premPrice: 230, cat: "Men's Wear", icon: 'fa-snowflake' },
         { id: 'm20', name: 'Tie', washPrice: null, dryPrice: 50, premPrice: 80, cat: "Men's Wear", icon: 'fa-user-tie' },
@@ -57,14 +57,14 @@ window.PRICE_DATABASE = {
         { id: 'w9', name: 'Kurti (Light)', washPrice: 90, dryPrice: 150, premPrice: 200, cat: "Women's Wear", icon: 'fa-female', img: 'assets/items/item-women-kurti.png' },
         { id: 'w10', name: 'Kurti (Heavy)', washPrice: null, dryPrice: 250, premPrice: 350, cat: "Women's Wear", icon: 'fa-female' },
         { id: 'w11', name: 'Lenha / Skirt', washPrice: null, dryPrice: 350, premPrice: 480, cat: "Women's Wear", icon: 'fa-female' },
-        { id: 'w12', name: 'Saree (Cotton / Synthetic / Light)', washPrice: null, dryPrice: 160, premPrice: 220, cat: "Women's Wear", icon: 'fa-scroll' },
+        { id: 'w12', name: 'Saree (Cotton / Synthetic / Light)', washPrice: null, dryPrice: 160, premPrice: 220, cat: "Women's Wear", icon: 'fa-scroll', img: 'assets/items/item-cotton-saree.jpg' },
         { id: 'w13', name: 'Saree (Silk / Chiffon / Georgette / Pattu / Heavy)', washPrice: null, dryPrice: 250, premPrice: 350, cat: "Women's Wear", icon: 'fa-scroll', img: 'assets/items/item-women-saree.png' },
         { id: 'w14', name: 'Saree (Heavy / Embroidered)', washPrice: null, dryPrice: 350, premPrice: 450, cat: "Women's Wear", icon: 'fa-crown' },
         { id: 'w15', name: 'Benarasi Saree', washPrice: null, dryPrice: 350, premPrice: 550, cat: "Women's Wear", icon: 'fa-crown' },
         { id: 'w16', name: 'Ritukumar / Sabyasachi & Others Branded Saree', washPrice: null, dryPrice: 1050, premPrice: 1550, cat: "Women's Wear", icon: 'fa-gem' },
         { id: 'w17', name: 'Petti Coat', washPrice: null, dryPrice: 60, premPrice: 120, cat: "Women's Wear", icon: 'fa-female' },
         { id: 'w18', name: 'Stole / Scraf', washPrice: null, dryPrice: 50, premPrice: 110, cat: "Women's Wear", icon: 'fa-wind' },
-        { id: 'w19', name: 'Shorts', washPrice: null, dryPrice: 50, premPrice: 100, cat: "Women's Wear", icon: 'fa-user' }
+        { id: 'w19', name: 'Shorts', washPrice: null, dryPrice: 50, premPrice: 100, cat: "Women's Wear", icon: 'fa-user', img: 'assets/items/item-shorts.jpg' }
     ],
     home: [
         { id: 'h1', name: 'Bath Mat', washPrice: null, dryPrice: 50, premPrice: 100, cat: 'Home Linen', icon: 'fa-bath' },
