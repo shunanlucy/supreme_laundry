@@ -1,4 +1,4 @@
-﻿/* ==========================================================
+/* ==========================================================
    HERO: 4-THEME RESPONSIVE CAROUSEL (DOUBLED SIZE ~165px-200px)
    Themes: 1. Offers, 2. Machine Wash, 3. Doorstep Agent, 4. Special Care
    ========================================================== */
@@ -9,27 +9,30 @@
 
 .promo-carousel-track {
     display: flex;
-    gap: 14px;
+    gap: 0;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding: 4px 4px 6px;
+    padding: 0;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
+    border-radius: 20px;
 }
 .promo-carousel-track::-webkit-scrollbar { display: none; }
 
 .promo-banner-slide {
-    flex: 0 0 92%;
-    max-width: 580px;
-    scroll-snap-align: center;
+    flex: 0 0 100%;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    scroll-snap-align: start;
     border-radius: 20px;
     position: relative;
     overflow: hidden;
     display: flex;
     align-items: center;
-    min-height: 175px;
-    box-shadow: 0 6px 22px rgba(15, 23, 42, 0.12);
+    min-height: 180px;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.12);
     cursor: pointer;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     user-select: none;
@@ -369,26 +372,42 @@
     .welcome-banner-card {
         flex-direction: column;
         align-items: flex-start;
-        padding: 10px 14px;
-        gap: 9px;
-        margin: 6px 0 12px;
+        padding: 12px 14px;
+        gap: 10px;
+        margin: 6px 0 14px;
+        border-radius: 16px;
+    }
+    .wbc-title {
+        font-size: 0.98rem;
+    }
+    .wbc-perks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 10px;
+    }
+    .wbc-perk {
+        font-size: 0.72rem;
     }
     .wbc-right {
         width: 100%;
         align-items: stretch;
+        display: flex;
         flex-direction: row;
         gap: 8px;
     }
     .wbc-cta-btn {
-        flex: 1;
+        flex: 1.2;
         justify-content: center;
-        padding: 8px 14px;
+        padding: 9px 12px;
+        font-size: 0.78rem;
     }
     .wbc-call-link {
+        flex: 1;
         justify-content: center;
         background: #f1f5f9;
         border-radius: var(--radius-pill);
-        padding: 6px 12px;
+        padding: 8px 10px;
+        font-size: 0.76rem;
     }
 }
 

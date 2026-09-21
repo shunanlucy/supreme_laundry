@@ -380,7 +380,7 @@
     }
 
     .app-content {
-        padding: 30px 24px 60px;
+        padding: 24px 24px 60px;
     }
 
     /* Hero: Desktop Promo Banner Carousel */
@@ -830,5 +830,113 @@
         justify-content: center;
         padding: 9px 14px;
         font-size: 0.82rem;
+    }
+}
+
+/* ==========================================================
+   MOBILE SCREEN PERFECTION (All Small & Large Mobile Devices)
+   Guarantees generous full-width display without cramped boxes
+   ========================================================== */
+@media (max-width: 540px) {
+    .app-content {
+        padding: 10px 12px 85px;
+    }
+
+    .promo-carousel-wrapper {
+        margin-bottom: 12px;
+    }
+
+    .promo-carousel-track {
+        border-radius: 16px;
+    }
+
+    .promo-banner-slide {
+        border-radius: 16px;
+        min-height: 180px;
+    }
+
+    .pbs-content {
+        padding: 16px 16px;
+        max-width: 82%;
+    }
+
+    .pbs-content h3 {
+        font-size: 1.15rem;
+    }
+
+    .pbs-content p {
+        font-size: 0.76rem;
+    }
+
+    .services-responsive-grid,
+    .price-items-grid {
+        gap: 10px;
+    }
+
+    .srv-box, .home-item-card, .catalog-item-card {
+        padding: 12px 10px;
+        border-radius: 15px;
+    }
+
+    .srv-icon-bubble {
+        width: 46px;
+        height: 46px;
+        font-size: 1.25rem;
+    }
+
+    .srv-name {
+        font-size: 0.88rem;
+    }
+
+    .srv-desc {
+        font-size: 0.72rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .app-content {
+        padding: 8px 10px 85px;
+    }
+
+    .mobile-app-header {
+        padding: 10px 10px 8px;
+    }
+
+    .loc-title {
+        font-size: 0.78rem;
+    }
+
+    .loc-icon-bubble {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    .pbs-content {
+        padding: 14px 12px;
+        max-width: 86%;
+    }
+
+    .pbs-content h3 {
+        font-size: 1.05rem;
+    }
+
+    .pbs-content p {
+        font-size: 0.72rem;
+    }
+
+    .pbs-btn {
+        padding: 6px 12px;
+        font-size: 0.72rem;
+    }
+
+    .services-responsive-grid,
+    .price-items-grid {
+        gap: 8px;
+    }
+
+    .srv-box, .home-item-card, .catalog-item-card {
+        padding: 10px 8px;
+        border-radius: 14px;
     }
 }

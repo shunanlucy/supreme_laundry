@@ -7,7 +7,8 @@
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
+    width: 100%;
+    background: rgba(255, 255, 255, 0.96);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border-soft);
@@ -16,6 +17,7 @@
 }
 
 .desktop-nav-container {
+    width: 100%;
     max-width: var(--desktop-max-width);
     margin: 0 auto;
     padding: 10px 24px;
@@ -23,6 +25,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+    box-sizing: border-box;
 }
 
 .d-brand {
@@ -34,8 +37,8 @@
 }
 
 .d-brand-logo {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
     background: transparent;
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.08));
@@ -44,14 +47,14 @@
 .d-brand-title {
     display: block;
     font-family: var(--font-heading);
-    font-size: 1.12rem;
+    font-size: 1.08rem;
     font-weight: 800;
     color: var(--primary);
     line-height: 1.15;
 }
 
 .d-brand-sub {
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     color: var(--text-muted);
     font-weight: 600;
 }
@@ -60,15 +63,16 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    flex-shrink: 1;
 }
 
 .d-nav-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 7px 12px;
+    padding: 6px 11px;
     border-radius: var(--radius-pill);
-    font-size: 0.83rem;
+    font-size: 0.81rem;
     font-weight: 600;
     color: var(--text-muted);
     text-decoration: none;
@@ -100,11 +104,11 @@
     gap: 6px;
     background: #f1f5f9;
     color: var(--text-main);
-    padding: 7px 12px;
+    padding: 6px 11px;
     border-radius: var(--radius-pill);
     text-decoration: none;
     font-weight: 700;
-    font-size: 0.83rem;
+    font-size: 0.80rem;
     transition: all 0.2s;
     white-space: nowrap;
 }
@@ -123,11 +127,11 @@
     gap: 6px;
     background: #25d366;
     color: #ffffff;
-    padding: 7px 14px;
+    padding: 6px 13px;
     border-radius: var(--radius-pill);
     text-decoration: none;
     font-weight: 700;
-    font-size: 0.83rem;
+    font-size: 0.80rem;
     box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
     transition: transform 0.2s;
     white-space: nowrap;
@@ -144,10 +148,10 @@
     background: var(--primary-gradient);
     color: #ffffff;
     border: none;
-    padding: 7px 16px;
+    padding: 6px 15px;
     border-radius: var(--radius-pill);
     font-weight: 700;
-    font-size: 0.83rem;
+    font-size: 0.80rem;
     cursor: pointer;
     box-shadow: 0 4px 14px var(--primary-glow);
     transition: transform 0.2s;
@@ -341,7 +345,7 @@
    ========================================================== */
 .app-content {
     flex: 1;
-    padding: 16px 16px 85px; /* bottom padding for mobile bar */
+    padding: 12px 14px 85px; /* bottom padding for mobile bar */
     overflow-x: hidden;
 }
 
