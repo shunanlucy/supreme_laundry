@@ -2,7 +2,7 @@
 
 > Premium Garment Care, Delicate Dry Cleaning, Steam Ironing & Home Upholstery Spa.  
 > Action Area 2, New Town, Kolkata 700160.  
-> **Hotline / WhatsApp:** 9007895400 / 78908 35228
+> **Hotline / WhatsApp:** 9007895400
 
 ---
 
@@ -74,4 +74,4 @@ python -m http.server 8080
 
 - **Location:** Plot II G/7, Near Kalurmore Bus Stand, Action Area 2, New Town, Kolkata 700160.
 - **Timings:** 9:00 AM – 9:00 PM Daily (7 Days a Week).
-- **Doorstep Pickup Hotline:** +91 9007895400 / +91 78908 35228.
+- **Doorstep Pickup Hotline:** +91 9007895400.

@@ -662,14 +662,6 @@ function generateAndShowInvoice(customOrderData) {
     const expressFee = speed === 'express' ? Math.round(itemSubtotal * 0.5) : 0;
     const grandTotal = itemSubtotal + deliveryFee + expressFee;
 
-    const deliveryRowHTML = deliveryFee === 0 
-        ? `<div class="inv-calc-row free-delivery"><span>Doorstep Pickup &amp; Drop:</span><span>FREE (Orders above ₹300)</span></div>`
-        : `<div class="inv-calc-row"><span>Pickup &amp; Delivery Fee:</span><span>₹${deliveryFee}</span></div>`;
-
-    const expressRowHTML = expressFee > 0
-        ? `<div class="inv-calc-row"><span>Express Speed Surcharge (+50%):</span><span>+₹${expressFee}</span></div>`
-        : '';
-
     // Automatically sync / save order to localStorage for Admin Panel
     try {
         const storedOrders = JSON.parse(localStorage.getItem('tsl_orders') || '[]');
@@ -695,117 +687,167 @@ function generateAndShowInvoice(customOrderData) {
                 deliveryFee: deliveryFee,
                 expressFee: expressFee,
                 total: grandTotal,
-                status: 'Order Placed'
+                status: 'Order Placed',
+                payment: {
+                    status: 'Unpaid',
+                    mode: 'Cash / UPI on Delivery',
+                    paidAmount: 0,
+                    dueAmount: grandTotal,
+                    transactionId: '',
+                    paidAt: null,
+                    notes: 'Pay on Doorstep Delivery'
+                }
             });
             localStorage.setItem('tsl_orders', JSON.stringify(storedOrders));
+            try {
+                window.dispatchEvent(new Event('tsl_orders_updated'));
+            } catch(ev) {}
         }
     } catch(e) {
         console.warn("Could not sync order to admin store:", e);
     }
 
-    // Render Full Invoice Card
+    // Build Thermal Items Rows (80mm POS Slip Style)
+    let thermalItemsRowsHTML = '';
+    if (cartKeys.length > 0) {
+        cartKeys.forEach(key => {
+            const entry = cart[key];
+            const lineTotal = entry.qty * entry.price;
+            thermalItemsRowsHTML += `
+                <tr>
+                    <td class="tr-col-item">
+                        <div class="tr-item-name">${entry.item.name}</div>
+                        <div class="tr-item-srv">[${entry.serviceLabel}]</div>
+                    </td>
+                    <td class="tr-col-qty">${entry.qty}</td>
+                    <td class="tr-col-rate">₹${entry.price}</td>
+                    <td class="tr-col-amt">₹${lineTotal}</td>
+                </tr>
+            `;
+        });
+    } else {
+        thermalItemsRowsHTML = `
+            <tr>
+                <td class="tr-col-item">
+                    <div class="tr-item-name">Assorted Garments Lot</div>
+                    <div class="tr-item-srv">[Doorstep Count &amp; Tag]</div>
+                </td>
+                <td class="tr-col-qty">1 lot</td>
+                <td class="tr-col-rate">Min ₹300</td>
+                <td class="tr-col-amt">₹300</td>
+            </tr>
+        `;
+    }
+
+    // Render Full Authentic 80mm Thermal Receipt Card
     const printableArea = document.getElementById('invoicePrintableArea');
     if (!printableArea) return;
 
     printableArea.innerHTML = `
-        <!-- STORE HEADER (The Supreme Laundry, Phone, Location: Kalurmore Bus Stand) -->
-        <div class="inv-store-header">
-            <div class="inv-brand-box">
-                <img src="assets/logo.png" alt="The Supreme Laundry" class="inv-store-logo" onerror="this.style.display='none'">
-                <div class="inv-store-info">
-                    <h2>The Supreme Laundry</h2>
-                    <div class="inv-store-tagline">We take care of your premium clothes &bull; Dry Cleaning Specialist</div>
-                    <div class="inv-store-address">
-                        <i class="fas fa-map-marker-alt" style="color: #e11d48;"></i> <strong>Store Location:</strong> Near Kalurmore Bus Stand, Action Area 2, New Town, Kolkata - 700160<br>
-                        <i class="fas fa-phone-alt" style="color: #16a34a;"></i> <strong>Phone:</strong> 9007895400 &bull; <i class="fab fa-whatsapp" style="color: #25d366;"></i> WhatsApp: 9007895400
-                    </div>
-                </div>
+        <div class="thermal-receipt-card" id="thermalReceiptCard">
+            <!-- Header -->
+            <div class="tr-header">
+                <img src="assets/logo.png" alt="TSL" class="tr-logo" onerror="this.style.display='none'">
+                <h2 class="tr-store-name">THE SUPREME LAUNDRY</h2>
+                <div class="tr-sub-text">PREMIUM GARMENT CARE &amp; DRY CLEANING</div>
+                <div class="tr-sub-text">Near Kalurmore Bus Stand, Action Area 2,<br>New Town, Kolkata - 700160</div>
+                <div class="tr-sub-text"><strong>Helpline / WhatsApp:</strong> 9007895400</div>
             </div>
-            <div class="inv-meta-box">
-                <span class="inv-type-badge"><i class="fas fa-file-invoice"></i> Official Invoice</span>
-                <div class="inv-meta-row">Inv No: <strong>${currentInvoiceNumber}</strong></div>
-                <div class="inv-meta-row">Date: <strong>${formattedNow}</strong></div>
-                <div class="inv-meta-row">Status: <strong style="color: #16a34a;">Order Confirmed</strong></div>
-            </div>
-        </div>
 
-        <!-- CUSTOMER DETAILS & PICKUP/DROP LOCATION -->
-        <div class="inv-details-grid">
-            <div class="inv-detail-col">
-                <div class="inv-block-title"><i class="fas fa-user-circle"></i> Customer &amp; Contact Info</div>
-                <div class="inv-detail-text">
-                    <strong>Customer Name:</strong> ${name}<br>
-                    <strong>Phone Number:</strong> ${phone}<br>
-                    <strong>Pickup &amp; Drop Location:</strong> ${address}
-                </div>
-            </div>
-            <div class="inv-detail-col">
-                <div class="inv-block-title"><i class="fas fa-calendar-check"></i> Pickup &amp; Service Schedule</div>
-                <div class="inv-detail-text">
-                    <strong>Pickup Date:</strong> ${dateVal} (${slot})<br>
-                    <strong>Service Speed:</strong> ${speed === 'express' ? 'Express (< 24 Hours)' : 'Standard (24-48 Hours)'}<br>
-                    <strong>Payment Mode:</strong> Cash / UPI on Delivery
-                </div>
-            </div>
-        </div>
+            <div class="tr-line-double"></div>
+            <div class="tr-title-center">*** TAX INVOICE &amp; PICKUP SLIP ***</div>
+            <div class="tr-line-dashed"></div>
 
-        <!-- SELECTED SERVICES & ITEMS TABLE -->
-        <div class="inv-table-wrapper">
-            <table class="inv-table">
+            <!-- Order Metadata -->
+            <div class="tr-kv-grid">
+                <div class="tr-kv"><span>INVOICE NO:</span><strong>${currentInvoiceNumber}</strong></div>
+                <div class="tr-kv"><span>DATE &amp; TIME:</span><span>${formattedNow}</span></div>
+                <div class="tr-kv"><span>PICKUP DATE:</span><span>${dateVal}</span></div>
+                <div class="tr-kv"><span>TIME SLOT:</span><span>${slot}</span></div>
+                <div class="tr-kv"><span>DELIVERY SPEED:</span><span>${speed === 'express' ? 'EXPRESS (<24H)' : 'STANDARD (24-48H)'}</span></div>
+                <div class="tr-kv"><span>STATUS:</span><strong style="color:#059669;">CONFIRMED (ADMIN NOTIFIED)</strong></div>
+            </div>
+
+            <div class="tr-line-dashed"></div>
+
+            <!-- Customer Details -->
+            <div class="tr-customer-box">
+                <div class="tr-kv"><span>CUSTOMER:</span><strong>${name}</strong></div>
+                <div class="tr-kv"><span>PHONE:</span><strong>${phone}</strong></div>
+                <div class="tr-kv tr-addr"><span>ADDRESS:</span><span>${address}</span></div>
+            </div>
+
+            <div class="tr-line-double"></div>
+
+            <!-- Items Table (POS Thermal Style) -->
+            <table class="tr-items-table">
                 <thead>
                     <tr>
-                        <th style="width: 40px;">#</th>
-                        <th>Garment / Item</th>
-                        <th>Selected Care Service</th>
-                        <th style="text-align: center; width: 60px;">Qty</th>
-                        <th style="text-align: right; width: 80px;">Rate</th>
-                        <th style="text-align: right; width: 90px;">Amount</th>
+                        <th class="tr-col-item">ITEM / SERVICE</th>
+                        <th class="tr-col-qty">QTY</th>
+                        <th class="tr-col-rate">RATE</th>
+                        <th class="tr-col-amt">AMT</th>
                     </tr>
                 </thead>
                 <tbody>
-                    ${itemsRowsHTML}
+                    ${thermalItemsRowsHTML}
                 </tbody>
             </table>
-        </div>
 
-        <!-- PRICE BREAKDOWN SUMMARY -->
-        <div class="inv-calc-section">
-            <div class="inv-calc-box">
-                <div class="inv-calc-row">
-                    <span>Items Subtotal (${totalPieces} items):</span>
-                    <strong>₹${itemSubtotal}</strong>
+            <div class="tr-line-dashed"></div>
+
+            <!-- Price Breakdown -->
+            <div class="tr-calc-block">
+                <div class="tr-calc-row">
+                    <span>Subtotal (${totalPieces} pcs):</span>
+                    <span>₹${itemSubtotal}</span>
                 </div>
-                ${deliveryRowHTML}
-                ${expressRowHTML}
-                <div class="inv-calc-row total">
-                    <span>Total Amount:</span>
+                <div class="tr-calc-row">
+                    <span>Doorstep Pickup &amp; Drop:</span>
+                    <span>${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}</span>
+                </div>
+                ${expressFee > 0 ? `
+                <div class="tr-calc-row">
+                    <span>Express Speed (+50%):</span>
+                    <span>+₹${expressFee}</span>
+                </div>` : ''}
+
+                <div class="tr-line-double"></div>
+
+                <div class="tr-calc-row tr-net-total">
+                    <span>NET PAYABLE:</span>
                     <span>₹${grandTotal}</span>
                 </div>
-            </div>
-        </div>
 
-        <!-- ESTIMATED DELIVERY TIME SECTION -->
-        <div class="inv-delivery-estimate-card">
-            <i class="fas fa-shipping-fast"></i>
-            <div class="inv-delivery-estimate-text">
-                <h4>${deliveryEstimateHeading}</h4>
-                <p>${deliveryEstimateSub} &bull; Free Doorstep Delivery across New Town &amp; Action Area 2</p>
-            </div>
-        </div>
+                <div class="tr-line-double"></div>
 
-        <!-- ENDING: THANK YOU PART & GUARANTEE -->
-        <div class="inv-card-footer">
-            <div class="inv-thankyou-title">
-                <i class="fas fa-heart"></i>
-                <span>Thank You for Choosing The Supreme Laundry!</span>
+                <div class="tr-calc-row">
+                    <span>Payment Mode:</span>
+                    <span>Cash / UPI on Delivery</span>
+                </div>
+                <div class="tr-calc-row">
+                    <span>Payment Status:</span>
+                    <strong>UNPAID (Pay at Doorstep)</strong>
+                </div>
             </div>
-            <div class="inv-thankyou-sub">
-                Your garments are in expert hands. We guarantee gentle fabric handling, anti-bacterial hygiene wash, zero fabric shrinkage &amp; crisp steam finish.
+
+            <div class="tr-line-dashed"></div>
+
+            <!-- Barcode Token -->
+            <div class="tr-barcode-wrapper">
+                <div class="tr-barcode-bars">||| | |||| | || |||||| | ||| |||| | || |||</div>
+                <div class="tr-barcode-code">* ${currentInvoiceNumber} *</div>
             </div>
-            <div class="inv-support-bar">
-                <span><i class="fas fa-headset"></i> Order Help &amp; Support: <strong>9007895400</strong></span>
-                <span>&bull;</span>
-                <span><i class="fas fa-map-pin"></i> <strong>Kalurmore Bus Stand</strong>, Action Area 2, Kolkata</span>
+
+            <!-- Thermal Receipt Footer -->
+            <div class="tr-footer-box">
+                <div class="tr-line-dashed"></div>
+                <div class="tr-f-bold">THANK YOU FOR CHOOSING TSL!</div>
+                <div class="tr-f-text">We take care of your premium clothes</div>
+                <div class="tr-f-text">Zero Shrinkage &bull; Anti-Bacterial Hygiene Wash</div>
+                <div class="tr-f-text">Helpline: +91 9007895400</div>
+                <div class="tr-f-text">Near Kalurmore Bus Stand, Action Area 2, New Town</div>
+                <div class="tr-f-legal">*** Computer Generated Thermal POS Slip ***</div>
             </div>
         </div>
     `;
@@ -824,36 +866,46 @@ function closeInvoiceModal() {
     if (wrapper) wrapper.classList.remove('show');
 }
 
-// Download PDF using html2pdf
+// Download PDF using html2pdf with authentic 80mm thermal roll format
 function downloadInvoicePDF() {
-    const element = document.getElementById('invoicePrintableArea');
+    const element = document.getElementById('thermalReceiptCard') || document.getElementById('invoicePrintableArea');
     if (!element) {
         alert("Invoice content not found. Please try again.");
         return;
     }
 
-    const filename = `The_Supreme_Laundry_Invoice_${currentInvoiceNumber || 'TSL'}.pdf`;
+    const filename = `TSL_Thermal_Bill_${currentInvoiceNumber || 'Bill'}.pdf`;
+
+    // Dynamic 80mm roll length calculation
+    const contentHeightPx = element.scrollHeight || element.offsetHeight || 620;
+    const contentWidthPx = element.scrollWidth || element.offsetWidth || 320;
+    const calculatedMmHeight = Math.ceil((contentHeightPx / contentWidthPx) * 80) + 12;
+    const finalMmHeight = Math.max(140, calculatedMmHeight);
 
     const opt = {
-        margin: [6, 6, 6, 6],
+        margin: [3, 2, 3, 2],
         filename: filename,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { 
-            scale: 2, 
+            scale: 2.5, 
             useCORS: true, 
             letterRendering: true,
             logging: false,
             scrollX: 0,
-            scrollY: 0
+            scrollY: 0,
+            windowWidth: 320
         },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { 
+            unit: 'mm', 
+            format: [80, finalMmHeight], 
+            orientation: 'portrait' 
+        }
     };
 
     if (window.html2pdf) {
-        // Provide user feedback
         const downloadBtn = document.querySelector('.btn-inv-download span');
         const origText = downloadBtn ? downloadBtn.textContent : '';
-        if (downloadBtn) downloadBtn.textContent = 'Generating PDF...';
+        if (downloadBtn) downloadBtn.textContent = 'Downloading Bill...';
 
         html2pdf().set(opt).from(element).save().then(() => {
             if (downloadBtn) downloadBtn.textContent = origText;
@@ -863,9 +915,78 @@ function downloadInvoicePDF() {
             window.print();
         });
     } else {
-        // Fallback to browser print dialog
         window.print();
     }
+}
+
+// Handler for Black Button ("Generate & Download Bill (PDF)")
+function handleGenerateBillDownload(e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const nameInput = document.getElementById('custName');
+    const phoneInput = document.getElementById('custPhone');
+    const addrInput = document.getElementById('custAddress');
+
+    const name = nameInput ? nameInput.value.trim() : '';
+    const phone = phoneInput ? phoneInput.value.trim() : '';
+    const address = addrInput ? addrInput.value.trim() : '';
+
+    const sheet = document.getElementById('orderBottomSheet');
+    const isSheetOpen = sheet && sheet.classList.contains('show');
+
+    if (!isSheetOpen && (!name || !phone || !address)) {
+        openOrderModal();
+        setTimeout(() => {
+            if (!name && nameInput) nameInput.focus();
+            else if (!phone && phoneInput) phoneInput.focus();
+            else if (!address && addrInput) addrInput.focus();
+        }, 300);
+        return;
+    }
+
+    if (!name) {
+        if (nameInput) {
+            nameInput.focus();
+            nameInput.style.borderColor = '#ef4444';
+        }
+        alert("Please enter Full Name to generate your bill.");
+        return;
+    }
+    if (!phone || phone.replace(/\D/g, '').length < 10) {
+        if (phoneInput) {
+            phoneInput.focus();
+            phoneInput.style.borderColor = '#ef4444';
+        }
+        alert("Please enter a valid 10-digit Phone Number.");
+        return;
+    }
+    if (!address) {
+        if (addrInput) {
+            addrInput.focus();
+            addrInput.style.borderColor = '#ef4444';
+        }
+        alert("Please enter your Pickup Address in New Town.");
+        return;
+    }
+
+    if (nameInput) nameInput.style.borderColor = '';
+    if (phoneInput) phoneInput.style.borderColor = '';
+    if (addrInput) addrInput.style.borderColor = '';
+
+    const dateVal = document.getElementById('custDate')?.value || new Date().toISOString().split('T')[0];
+    const slot = document.getElementById('custSlot')?.value || 'Morning (9 AM - 1 PM)';
+    const speed = document.getElementById('custSpeed')?.value || 'standard';
+
+    // 1. Generate thermal invoice and record in admin localStorage
+    generateAndShowInvoice({ name, phone, address, date: dateVal, slot, speed });
+
+    // 2. Close booking sheet
+    closeOrderModal();
+
+    // 3. Automatically download PDF directly to phone
+    setTimeout(() => {
+        downloadInvoicePDF();
+    }, 450);
 }
 
 // Print Bill

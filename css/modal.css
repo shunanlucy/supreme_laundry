@@ -1495,6 +1495,216 @@
     border-color: #94a3b8;
 }
 
+/* ==========================================================
+   AUTHENTIC 80MM THERMAL RECEIPT SLIP STYLING
+   ========================================================== */
+.thermal-receipt-card {
+    width: 320px;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #ffffff;
+    color: #000000;
+    font-family: 'Courier Prime', 'Consolas', 'Courier New', monospace;
+    font-size: 11px;
+    line-height: 1.35;
+    padding: 16px 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.tr-header {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.tr-logo {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+
+.tr-store-name {
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    margin: 2px 0;
+    color: #000000;
+}
+
+.tr-sub-text {
+    font-size: 10px;
+    color: #222222;
+    margin: 1px 0;
+}
+
+.tr-line-double {
+    border-top: 1.5px dashed #000000;
+    border-bottom: 1.5px dashed #000000;
+    height: 3px;
+    margin: 6px 0;
+}
+
+.tr-line-dashed {
+    border-top: 1px dashed #000000;
+    margin: 6px 0;
+}
+
+.tr-title-center {
+    text-align: center;
+    font-weight: 800;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding: 2px 0;
+}
+
+.tr-kv-grid, .tr-customer-box {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 10.5px;
+}
+
+.tr-kv {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.tr-kv span:first-child {
+    font-weight: 600;
+    color: #333333;
+    flex-shrink: 0;
+}
+
+.tr-kv strong, .tr-kv span:last-child {
+    text-align: right;
+    word-break: break-word;
+}
+
+.tr-addr {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.tr-addr span:last-child {
+    text-align: left;
+    padding-left: 2px;
+}
+
+.tr-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0;
+    font-size: 10.5px;
+}
+
+.tr-items-table th {
+    border-bottom: 1px dashed #000000;
+    padding: 4px 2px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.tr-col-item {
+    text-align: left;
+    width: 48%;
+}
+
+.tr-col-qty {
+    text-align: center;
+    width: 14%;
+}
+
+.tr-col-rate {
+    text-align: right;
+    width: 18%;
+}
+
+.tr-col-amt {
+    text-align: right;
+    width: 20%;
+    font-weight: 700;
+}
+
+.tr-items-table td {
+    padding: 4px 2px;
+    vertical-align: top;
+    border-bottom: 0.5px dotted #cccccc;
+}
+
+.tr-item-name {
+    font-weight: 700;
+    color: #000000;
+}
+
+.tr-item-srv {
+    font-size: 9px;
+    color: #444444;
+}
+
+.tr-calc-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    font-size: 11px;
+}
+
+.tr-calc-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.tr-net-total {
+    font-size: 14px;
+    font-weight: 900;
+    padding: 3px 0;
+}
+
+.tr-barcode-wrapper {
+    text-align: center;
+    margin: 8px 0 4px 0;
+}
+
+.tr-barcode-bars {
+    font-family: 'Courier New', monospace;
+    font-weight: 900;
+    letter-spacing: 3px;
+    font-size: 14px;
+}
+
+.tr-barcode-code {
+    font-size: 10px;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.tr-footer-box {
+    text-align: center;
+    margin-top: 6px;
+    font-size: 10px;
+    color: #222222;
+}
+
+.tr-f-bold {
+    font-weight: 800;
+    margin: 3px 0;
+}
+
+.tr-f-text {
+    margin: 2px 0;
+}
+
+.tr-f-legal {
+    margin-top: 6px;
+    font-size: 8.5px;
+    color: #666666;
+}
+
 /* PRINT MEDIA QUERY */
 @media print {
     body * {

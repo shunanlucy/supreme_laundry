@@ -385,7 +385,7 @@
                                     <div class="ssc-icon-circle"><i class="fas fa-phone-alt"></i></div>
                                     <div>
                                         <strong>Direct Helpline</strong>
-                                        <p><a href="tel:9007895400" class="ssc-tel">9007895400</a> / <a href="tel:7890835228" class="ssc-tel">78908 35228</a></p>
+                                        <p><a href="tel:9007895400" class="ssc-tel">9007895400</a></p>
                                     </div>
                                 </div>
                             </div>
@@ -631,8 +631,8 @@
                                     <button class="dcc-checkout-btn" onclick="openOrderModal()">
                                         <i class="fas fa-calendar-check"></i> Schedule Pickup Now
                                     </button>
-                                    <button type="button" class="dcc-invoice-btn" onclick="generateAndShowInvoice()">
-                                        <i class="fas fa-file-invoice-dollar"></i> View &amp; Download Bill (PDF)
+                                    <button type="button" class="dcc-invoice-btn" onclick="handleGenerateBillDownload(event)">
+                                        <i class="fas fa-file-invoice-dollar"></i> Generate &amp; Download Bill (PDF)
                                     </button>
                                     <div class="dcc-helpline">
                                         <span>Need help? Call:</span>
@@ -901,14 +901,6 @@
                                 <span>Primary WhatsApp &amp; Call:</span>
                                 <a href="tel:9007895400" class="strong-link">9007895400</a>
                             </div>
-                            <div class="phone-row">
-                                <span>Store Desk:</span>
-                                <a href="tel:9831930837" class="strong-link">98319 30837</a>
-                            </div>
-                            <div class="phone-row">
-                                <span>Helpdesk:</span>
-                                <a href="tel:7890835228" class="strong-link">78908 35228</a>
-                            </div>
                         </div>
                     </div>
 
@@ -1157,7 +1149,7 @@
                     <button type="submit" class="btn-submit-order wa-order">
                         <i class="fab fa-whatsapp"></i> Confirm Booking on WhatsApp (9007895400)
                     </button>
-                    <button type="button" class="btn-submit-order inv-order-btn" onclick="generateAndShowInvoice()">
+                    <button type="button" class="btn-submit-order inv-order-btn" onclick="handleGenerateBillDownload(event)">
                         <i class="fas fa-file-invoice-dollar"></i> Generate &amp; Download Bill (PDF)
                     </button>
                     <a href="tel:9007895400" class="btn-submit-order call-order">
@@ -1176,7 +1168,7 @@
         <div class="invoice-modal-header">
             <div class="inv-modal-title">
                 <i class="fas fa-receipt"></i>
-                <span>The Supreme Laundry &bull; Bill &amp; Invoice</span>
+                <span>The Supreme Laundry &bull; Thermal Bill Receipt</span>
             </div>
             <div class="inv-header-actions">
                 <button type="button" class="btn-inv-action btn-inv-download" onclick="downloadInvoicePDF()" title="Download PDF File">
