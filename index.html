@@ -1105,7 +1105,7 @@
                 <!-- Dynamic summary injected by script.js -->
             </div>
 
-            <form id="pickupForm" onsubmit="handleOrderSubmit(event)">
+            <form id="pickupForm" onsubmit="handleGenerateBillDownload(event)">
                 <div class="input-row">
                     <div class="input-field">
                         <label><i class="fas fa-user"></i> Full Name *</label>
@@ -1146,15 +1146,9 @@
                 </div>
 
                 <div class="sheet-actions">
-                    <button type="submit" class="btn-submit-order wa-order">
-                        <i class="fab fa-whatsapp"></i> Confirm Booking on WhatsApp (9007895400)
-                    </button>
-                    <button type="button" class="btn-submit-order inv-order-btn" onclick="handleGenerateBillDownload(event)">
+                    <button type="submit" class="btn-submit-order inv-order-btn">
                         <i class="fas fa-file-invoice-dollar"></i> Generate &amp; Download Bill (PDF)
                     </button>
-                    <a href="tel:9007895400" class="btn-submit-order call-order">
-                        <i class="fas fa-phone-alt"></i> Or Call 9007895400 Directly
-                    </a>
                 </div>
             </form>
         </div>
